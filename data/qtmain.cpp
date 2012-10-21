@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
 
     QMainWindow gui;
-    gui.setWindowTitle("Hello, world!");
+    gui.setWindowTitle("@PROJECT@");
     centerApp(gui);
 
     QPushButton quit("Quit", &gui);

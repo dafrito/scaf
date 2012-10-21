@@ -14,6 +14,11 @@ generate_scaffold() {
 
     cp $SCAFDATA/qtmain.cpp $file
 
+    project=${PROJECT:-Hello world};
+    sed -ri \
+        "s/@PROJECT@/$project/g" \
+        $file;
+
     if [ -n "$MODELINE" ]; then
         echo >>$file
         echo "// $MODELINE" >>$file
