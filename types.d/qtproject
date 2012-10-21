@@ -16,7 +16,7 @@ generate_scaffold() {
 
     project=`basename $file`
     email=${EMAIL:-TODO@example.com}
-    find $file -name '*.ac' -o -name '*.am' -o -name README | xargs sed -ri \
+    find $file -name '*.ac' -o -name '*.am' | xargs sed -ri \
         -e "s/@@PROJECT@@/$project/g" \
         -e "s|@@EMAIL@@|$email|g";
 
