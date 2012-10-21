@@ -34,7 +34,7 @@ if [ ! -d "$SCAFDATA" ]; then
 fi;
 
 usage() {
-    echo "USAGE: scaf TYPE FILE..." >&2
+    echo "USAGE: scaf [TYPE] FILE [OPTIONS...]" >&2
 }
 
 if [ "$#" -eq 0 ]; then
@@ -46,16 +46,28 @@ fi;
 export SCAFFOLD_TYPE=$1
 shift
 
-scaffold=$scaffolds/$SCAFFOLD_TYPE
-[ -x $scaffold ] || die "No scaffold for type: $type"
-
 if [ "$#" -eq 0 ]; then
     # TODO Implement some automatic type detection, so things like:
     # $ scaf foo.cpp
     # can be supported without needing to provide redundant information.
-    usage
-    die "No target file provided."
+    case "$SCAFFOLD_TYPE" in
+        *.hpp|*.cpp|*.cxx|*.hxx|*.C|*.H)
+            target=$SCAFFOLD_TYPE
+            SCAFFOLD_TYPE=cpp
+        ;;
+        *)
+        usage
+        die "No target file provided."
+        ;;
+    esac;
+else
+    target=$1
+    shift;
 fi;
+
+scaffold=$scaffolds/$SCAFFOLD_TYPE
+[ -x $scaffold ] || die "No scaffold for type: $type"
+
 
 # TODO Load .scafrc files in this order:
 # /etc/scafrc
@@ -63,6 +75,6 @@ fi;
 # And in every directory including the current (with /.scafrc first, to the
 # current directory last)
 
-source $scaffold $*;
+source $scaffold $target $*;
 
 # vim: set ts=4 sw=4 et :
