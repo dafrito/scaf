@@ -44,6 +44,7 @@ fi;
 
 usage() {
     echo "USAGE: scaf [TYPE] FILE [OPTIONS...]"
+    echo "Supported scaffolds:"
     for f in $scaffolds/*; do
         if [ -f $f ] && [ ! -h $f ]; then
             name=`basename $f`
@@ -58,7 +59,6 @@ usage() {
 }
 
 if [ "$#" -eq 0 ]; then
-    echo "No scaffold provided." >&2
     usage >&2
     exit 1
 fi;
@@ -85,6 +85,7 @@ if [ ! -x $scaffold ]; then
         ;;
         *)
             echo "No target file provided."  >&2
+            echo >&2
             usage >&2
             exit 1
         ;;
