@@ -31,6 +31,11 @@ scaffold_header_file() {
         -e "s#@HEADER_DEFINE@#${header_define}_HEADER#g" \
         -e "s#@CLASS@#$klass#g" \
         $file;
+
+    if [ -n "$MODELINE" ]; then
+        echo >>$file
+        echo "// $MODELINE" >> $file
+    fi;
 }
 
 scaffold_source_file() {
@@ -60,6 +65,11 @@ scaffold_source_file() {
         -e "s#@HEADER@#$header#g" \
         -e "s#@CLASS@#$klass#g" \
         $file;
+
+    if [ -n "$MODELINE" ]; then
+        echo >>$file
+        echo "// $MODELINE" >> $file
+    fi;
 
     # Finally, generate the header as well
     scaffold_header_file $header
