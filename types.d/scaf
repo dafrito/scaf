@@ -1,0 +1,18 @@
+#!/bin/bash
+PATH=/bin:/usr/bin
+
+die() {
+    echo $* >&2
+    exit 1;
+}
+
+for f in $*; do
+    mkdir -p `dirname $f`
+
+    cp $SCAFDATA/scaf-scaf.sh $f
+
+    if [ -n "$MODELINE" ]; then
+        echo >>$f
+        echo "# $MODELINE" >>$f
+    fi
+done;
