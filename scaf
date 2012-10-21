@@ -49,17 +49,17 @@ shift
 # Our first stab at a scaffold
 scaffold=$scaffolds/$SCAFFOLD_TYPE
 
-if [ "$#" -eq 0 ] || [ ! -x $scaffold ]; then
-    # No file was given, or we didn't recognize the scaffold type. Let's
-    # assume we were given an actual file, with the assumption that the
-    # scaffold type could be coerced from that file.
+if [ ! -x $scaffold ]; then
+    # We didn't recognize the scaffold type. Let's assume we were given an
+    # actual file, with the assumption that the scaffold type could be coerced
+    # from that file.
     case "$SCAFFOLD_TYPE" in
         *.hpp|*.cpp|*.cxx|*.hxx|*.C|*.H)
-            target=$SCAFFOLD_TYPE
+            first=$SCAFFOLD_TYPE
             SCAFFOLD_TYPE=cpp
         ;;
         *.sh)
-            target=$SCAFFOLD_TYPE
+            first=$SCAFFOLD_TYPE
             SCAFFOLD_TYPE=sh
         ;;
         *)
@@ -67,9 +67,7 @@ if [ "$#" -eq 0 ] || [ ! -x $scaffold ]; then
             die "No target file provided."
         ;;
     esac;
-else
-    target=$1
-    shift;
+    set $first $*
 fi;
 
 # Reset scaffold, since our type may have changed
@@ -83,6 +81,6 @@ scaffold=$scaffolds/$SCAFFOLD_TYPE
 # And in every directory including the current (with /.scafrc first, to the
 # current directory last)
 
-source $scaffold $target $*;
+source $scaffold $*;
 
 # vim: set ts=4 sw=4 et :
