@@ -50,9 +50,18 @@ scaffold=$scaffolds/$SCAFFOLD_TYPE
 [ -x $scaffold ] || die "No scaffold for type: $type"
 
 if [ "$#" -eq 0 ]; then
+    # TODO Implement some automatic type detection, so things like:
+    # $ scaf foo.cpp
+    # can be supported without needing to provide redundant information.
     usage
     die "No target file provided."
 fi;
+
+# TODO Load .scafrc files in this order:
+# /etc/scafrc
+# /home/dafrito/.scafrc
+# And in every directory including the current (with /.scafrc first, to the
+# current directory last)
 
 source $scaffold $*;
 
