@@ -1,0 +1,29 @@
+#!/bin/bash
+PATH=/bin:/usr/bin
+
+die() {
+    echo $* >&2
+    exit 1;
+}
+
+realname() {
+    grep "^`whoami`" /etc/passwd | cut -d: -f5
+}
+
+if [ $# = 0 ]; then
+    set LICENSE
+fi;
+
+for f in $*; do
+    mkdir -p `dirname $f`
+    if [ -e $f ]; then
+        echo "$f already exists, skipping."
+    else
+        cp $SCAFDATA/MIT.license $f
+        sed -i -re "s/@YEAR@/`date +%Y`/g" \
+            -e "s:@OWNER@:`realname`:g" \
+            $f;
+    fi;
+done;
+
+# vim: set ts=4 sw=4 et :
