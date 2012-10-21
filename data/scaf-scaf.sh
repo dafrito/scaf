@@ -21,6 +21,10 @@ generate_scaffold() {
     fi
 }
 
+if [ "$#" -eq 0 ]; then
+    die "At least one file must be provided";
+fi;
+
 for file in $*; do
     mkdir -p `dirname $file`
     if [ -e $file ]; then

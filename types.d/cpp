@@ -71,6 +71,10 @@ scaffold_source_file() {
     scaffold_header_file $header
 }
 
+if [ "$#" -eq 0 ]; then
+    die "At least one file must be provided";
+fi;
+
 for f in $*; do
     mkdir -p `dirname $file`
     if [ -e $file ]; then

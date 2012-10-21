@@ -8,6 +8,10 @@ die() {
     exit 1;
 }
 
+if [ "$#" -eq 0 ]; then
+    die "At least one file must be provided";
+fi;
+
 for f in $*; do
     mkdir -p `dirname $f`
     cp $SCAFDATA/scaf.sh $f
