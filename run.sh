@@ -11,12 +11,12 @@ if  [ -z "$SCAF_INSTALLED" ]; then
     # things.
 
     # A (hopefully) usable link to the scaf executable
-    SCAF=$0
+    SCAF=`realpath $0`
 
     # The root directory for scaf. In installed configurations, this
     # won't be as necessary, since we'll use /usr/share for scaffold
     # data and /usr/bin for scaf itself.
-    SCAFDIR=`dirname $0`
+    SCAFDIR=`dirname $SCAF`
 fi;
 
 if [ ! -x $SCAF ]; then
