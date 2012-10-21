@@ -7,7 +7,7 @@ die() {
 }
 
 for f in $*; do
-    cp $SCAFDATA/bash.sh $f
+    cp $SCAFDATA/scaf.sh $f
 done;
 
 # vim: set ts=4 sw=4 et :
