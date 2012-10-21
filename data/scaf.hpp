@@ -10,7 +10,5 @@ public:
     // TODO Insert public methods here
 };
 
-
 #endif // @HEADER_DEFINE@
-
 // vim: set ts=4 sw=4 et :
