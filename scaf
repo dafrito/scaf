@@ -1,14 +1,36 @@
 #!/bin/bash
 PATH=/bin:/usr/bin
 
-export SCAFDIR=$HOME/src/scaf
-export SCAFFOLDS=$SCAFDIR/types.d
-export SCAFFOLD_DATA=$SCAFDIR/data
-
 die() {
     echo $* >&2
     exit 1
 }
+
+# A (hopefully) usable link to the scaf executable
+export SCAF=$0
+if [ ! -x $SCAF ]; then
+    die "No valid path to scaf. SCAF: $SCAF";
+fi
+
+# The root directory for scaf. In installed configurations, this
+# won't be as necessary, since we'll use /usr/share for scaffold
+# data and /usr/bin for scaf itself.
+export SCAFDIR=$HOME/src/scaf
+if [ ! -d "$SCAFDIR" ]; then
+    die "No valid path to scaf's root directory. Attempted: $SCAFDIR"
+fi;
+
+# A directory that contains all of scaf's supported types.
+export SCAFFOLDS=$SCAFDIR/types.d
+if [ ! -d "$SCAFFOLDS" ]; then
+    die "No valid path to scaf's types.d directory. Attempted: $SCAFFOLDS"
+fi;
+
+# A directory that contains data used by scaf's types.
+export SCAFFOLD_DATA=$SCAFDIR/data
+if [ ! -d "$SCAFFOLD_DATA" ]; then
+    die "No valid path to scaf's data directory. Attempted: $SCAFFOLD_DATA"
+fi;
 
 usage() {
     echo "USAGE: scaf TYPE FILE..." >&2
