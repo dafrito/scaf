@@ -1,0 +1,34 @@
+#!/bin/bash
+PATH=/bin:/usr/bin
+
+die() {
+    echo $* >&2
+    exit 1;
+}
+
+generate_scaffold() {
+    file=$1;
+    shift;
+
+    cp $SCAFDATA/qtmain.cpp $file
+
+    if [ -n "$MODELINE" ]; then
+        echo >>$file
+        echo "// $MODELINE" >>$file
+    fi
+}
+
+if [ $# = 0 ]; then
+    set main.cpp
+fi;
+
+for file in $*; do
+    mkdir -p `dirname $file`
+    if [ -e $file ]; then
+        echo "$file already exists, ignoring." >&2
+    else
+        generate_scaffold $file
+    fi
+done;
+
+# vim: set ts=4 sw=4 et :
