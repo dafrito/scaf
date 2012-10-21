@@ -15,21 +15,22 @@ fi
 # The root directory for scaf. In installed configurations, this
 # won't be as necessary, since we'll use /usr/share for scaffold
 # data and /usr/bin for scaf itself.
-export SCAFDIR=$HOME/src/scaf
-if [ ! -d "$SCAFDIR" ]; then
-    die "No valid path to scaf's root directory. Attempted: $SCAFDIR"
+scafdir=$HOME/src/scaf
+if [ ! -d "$scafdir" ]; then
+    die "No valid path to scaf's root directory. Attempted: $scafdir"
 fi;
 
 # A directory that contains all of scaf's supported types.
-export SCAFFOLDS=$SCAFDIR/types.d
-if [ ! -d "$SCAFFOLDS" ]; then
-    die "No valid path to scaf's types.d directory. Attempted: $SCAFFOLDS"
+scaffolds=$scafdir/types.d
+if [ ! -d "$scaffolds" ]; then
+    die "No valid path to scaf's types.d directory. Attempted: $scaffolds"
 fi;
 
-# A directory that contains data used by scaf's types.
-export SCAFFOLD_DATA=$SCAFDIR/data
-if [ ! -d "$SCAFFOLD_DATA" ]; then
-    die "No valid path to scaf's data directory. Attempted: $SCAFFOLD_DATA"
+# A directory that contains data used by scaf's types. Used by
+# supported clients, so it must be exported.
+export SCAFDATA=$scafdir/data
+if [ ! -d "$SCAFDATA" ]; then
+    die "No valid path to scaf's data directory. Attempted: $SCAFDATA"
 fi;
 
 usage() {
@@ -41,16 +42,18 @@ if [ "$#" -eq 0 ]; then
     die "No scaffold provided."
 fi;
 
+# The chosen scaffold type
 export SCAFFOLD_TYPE=$1
 shift
 
-[ -x $SCAFFOLDS/$type ] || die "No scaffold for type: $type"
+scaffold=$scaffolds/$SCAFFOLD_TYPE
+[ -x $scaffold ] || die "No scaffold for type: $type"
 
 if [ "$#" -eq 0 ]; then
     usage
     die "No target file provided."
 fi;
 
-source $SCAFFOLDS/$SCAFFOLD_TYPE $*;
+source $scaffold $*;
 
 # vim: set ts=4 sw=4 et :
