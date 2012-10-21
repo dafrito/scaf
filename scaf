@@ -46,18 +46,25 @@ fi;
 export SCAFFOLD_TYPE=$1
 shift
 
-if [ "$#" -eq 0 ]; then
-    # TODO Implement some automatic type detection, so things like:
-    # $ scaf foo.cpp
-    # can be supported without needing to provide redundant information.
+# Our first stab at a scaffold
+scaffold=$scaffolds/$SCAFFOLD_TYPE
+
+if [ "$#" -eq 0 ] || [ ! -x $scaffold ]; then
+    # No file was given, or we didn't recognize the scaffold type. Let's
+    # assume we were given an actual file, with the assumption that the
+    # scaffold type could be coerced from that file.
     case "$SCAFFOLD_TYPE" in
         *.hpp|*.cpp|*.cxx|*.hxx|*.C|*.H)
             target=$SCAFFOLD_TYPE
             SCAFFOLD_TYPE=cpp
         ;;
+        *.sh)
+            target=$SCAFFOLD_TYPE
+            SCAFFOLD_TYPE=sh
+        ;;
         *)
-        usage
-        die "No target file provided."
+            usage
+            die "No target file provided."
         ;;
     esac;
 else
@@ -65,6 +72,7 @@ else
     shift;
 fi;
 
+# Reset scaffold, since our type may have changed
 scaffold=$scaffolds/$SCAFFOLD_TYPE
 [ -x $scaffold ] || die "No scaffold for type: $type"
 
