@@ -1,3 +1,4 @@
+# This must always contain a package-specific subdirectory
 PKGDATADIR=${DATADIR}/scaf
 
 all: scaf
