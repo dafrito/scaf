@@ -32,13 +32,18 @@ generate_scaffold() {
 
     $SCAF qtmain src/main.cpp
     $SCAF license
-    git init .
+
+    # Set up git
+    git init -q .
     git add .
 
     # Force the addition of the m4/ directory, since it's ignored in .gitignore
     git add -f m4
 
-    git commit -m"Initial scaffold for an Autotools-backed Qt project"
+    # Commit everything for our initial commit
+    git commit -q -m"Initial scaffold for an Autotools-backed Qt project"
+
+    # Get Autotools setup
     autoreconf -i
 
     popd;
