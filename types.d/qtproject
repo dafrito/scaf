@@ -1,0 +1,60 @@
+#!/bin/bash
+PATH=/bin:/usr/bin
+
+# Description: Generate a Autotools-backed Qt project
+
+die() {
+    echo $* >&2
+    exit 1;
+}
+
+generate_scaffold() {
+    file=$1;
+    shift;
+
+    cp -r $SCAFDATA/qtproject $file
+
+    project=`basename $file`
+    email=${EMAIL:-TODO@example.com}
+    find $file -name '*.ac' -o -name '*.am' -o -name README | xargs sed -ri \
+        -e "s/@@PROJECT@@/$project/g" \
+        -e "s|@@EMAIL@@|$email|g";
+
+    if [ -n "$MODELINE" ]; then
+        for sourcefile in `find $file -name '*.cpp' -o -name '*.hpp'`; do
+            echo >>$sourcefile
+            echo "// $MODELINE" >>$sourcefile
+        done;
+    fi;
+
+    pushd $file
+    echo "PROJECT=$project" >>.scafrc
+
+    $SCAF qtmain src/main.cpp
+    $SCAF license
+    git init .
+    git add .
+
+    # Force the addition of the m4/ directory, since it's ignored in .gitignore
+    git add -f m4
+
+    git commit -m"Initial scaffold for an Autotools-backed Qt project"
+    autoreconf -i
+
+    popd;
+}
+
+if [ "$#" -eq 0 ]; then
+    die "At least one file must be provided";
+fi;
+
+for file in $*; do
+    mkdir -p `dirname $file`
+    if [ -e $file ]; then
+        echo "$file already exists, ignoring." >&2
+    else
+        generate_scaffold $file
+    fi
+done;
+
+# vim: set ts=4 sw=4 et :

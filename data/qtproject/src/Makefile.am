@@ -1,0 +1,13 @@
+QT_CXXFLAGS = @QT_CXXFLAGS@
+QT_LIBS = @QT_LIBS@
+QT_MOC = @QT_MOC@
+
+bin_PROGRAMS = @@PROJECT@@
+@@PROJECT@@_CPPFLAGS = @QT_CXXFLAGS@
+@@PROJECT@@_LDADD = @QT_LIBS@
+
+@@PROJECT@@_SOURCES = \
+	main.cpp
+
+moc_%.cpp: %.hpp
+	$(QT_MOC) -o $@ $<

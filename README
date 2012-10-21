@@ -19,5 +19,7 @@ Here's the current list of variables that can be overridden in .scafrc files:
 
 * MODELINE: The Vim modeline to add to most generated files.
 * OWNER: The "legal" owner of the file (e.g. the organization, the individual)
+* PROJECT: The simple, program-friendly name of the project.
+* EMAIL: The email for the point-of-contact
 
 vim: set tw=80 :
