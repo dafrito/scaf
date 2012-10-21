@@ -7,12 +7,9 @@ die() {
 }
 
 scaffold_header_file() {
-    file=$1
-    if [ -e $file ]; then
-        echo "$file already exists, ignoring." >&2
-        return;
-    fi
-    mkdir -p `dirname $f`;
+    file=$1;
+    shift;
+
     # TODO We should support using a different file if the filename
     # doesn't look like a class name
     cp $SCAFDATA/scaf.hpp $file
@@ -39,12 +36,9 @@ scaffold_header_file() {
 }
 
 scaffold_source_file() {
-    file=$1
-    if [ -e $file ]; then
-        echo "$file already exists, ignoring." >&2
-        return;
-    fi
-    mkdir -p `dirname $f`;
+    file=$1;
+    shift;
+
     # TODO We should support using a different file if the filename
     # doesn't look like a class name
     cp $SCAFDATA/scaf.cpp $file
@@ -76,11 +70,16 @@ scaffold_source_file() {
 }
 
 for f in $*; do
-    case "$f" in
-        *.h|*.hpp) scaffold_header_file $f ;;
-        *.c|*.cpp|*.C) scaffold_source_file $f ;;
-        *) scaffold_source_file $f.cpp ;;
-    esac;
+    mkdir -p `dirname $file`
+    if [ -e $file ]; then
+        echo "$file already exists, ignoring." >&2
+    else
+        case "$file" in
+            *.h|*.hpp) scaffold_header_file $file ;;
+            *.c|*.cpp|*.C) scaffold_source_file $file ;;
+            *) scaffold_source_file $file.cpp ;;
+        esac;
+    fi;
 done;
 
 # vim: set ts=4 sw=4 et :
