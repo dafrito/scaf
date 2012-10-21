@@ -1,5 +1,4 @@
-This tool is designed to easily generate scaffolds for various file types like
-source files, licenses, etc.
+Generate blank scaffolds for source files, licenses, etc.
 
 ## .scafrc files
 
