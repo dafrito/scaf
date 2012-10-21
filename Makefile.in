@@ -25,5 +25,29 @@ ${APP}: run.sh
 	rm -f $@
 	mv $@-wip $@
 
+install: uninstall ${APP} | ${BINDIR} ${PKGDATADIR}
+	test -n ${BINDIR}
+	test -n ${PKGDATADIR}
+	cp ${APP} ${BINDIR}
+	cp -r data types.d ${PKGDATADIR}
+.PHONY: clean
+
 ${BINDIR} ${PKGDATADIR}:
 	mkdir -p $@
+
+uninstall:
+	# Verify these variables are given
+	test -n ${BINDIR}
+	test -n ${APP}
+	test -n ${PKGDATADIR}
+	rm -f ${BINDIR}/${APP}
+	rm -rf ${PKGDATADIR}
+.PHONY: uninstall
+
+clean:
+	rm -f ${APP} *-wip
+.PHONY: clean
+
+realclean: clean
+	rm -f Makefile
+.PHONY: realclean
