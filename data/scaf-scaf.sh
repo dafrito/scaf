@@ -6,14 +6,24 @@ die() {
     exit 1;
 }
 
-for f in $*; do
-    mkdir -p `dirname $f`
+generate_scaffold() {
+    file=$1;
+    shift;
 
     # TODO Insert your scaffold here.
-    # cp $SCAFDATA/example.sh $f
+    # cp $SCAFDATA/example.sh $file
 
     if [ -n "$MODELINE" ]; then
-        echo >>$f
-        echo "# $MODELINE" >>$f
+        echo >>$file
+        echo "# $MODELINE" >>$file
+    fi
+}
+
+for file in $*; do
+    mkdir -p `dirname $file`
+    if [ -e $file ]; then
+        echo "$file already exists, ignoring." >&2
+    else
+        generate_scaffold $file
     fi
 done;
