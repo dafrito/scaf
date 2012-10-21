@@ -18,12 +18,16 @@ scaffold_header_file() {
     header=`basename $file | \
         sed -re 's/\.[^.]+$//' \
             -e 's/\./_/g' \
-            -e 's/^(.*)$/\U\1/'
+        `;
+    klass=`basename $header`;
+    header_define=`echo $header | \
+        sed -re 's/^(.*)$/\U\1/'
         `;
 
     # Fill in the preprocessor lines
     sed -i \
-        -e "s#@HEADER_DEFINE@#${header}_HEADER#g" \
+        -e "s#@HEADER_DEFINE@#${header_define}_HEADER#g" \
+        -e "s#@CLASS@#$klass#g" \
         $file;
 }
 
@@ -38,6 +42,7 @@ scaffold_source_file() {
 
     # Get the right header name
     header=`echo $file | sed -re 's/\.[^.]+$//'`;
+    klass=`basename $header`
     case "$file" in
         *.cpp) header="$header.hpp" ;;
         *.cxx) header="$header.hxx" ;;
@@ -49,6 +54,7 @@ scaffold_source_file() {
     # Add a reference to the header
     sed -i \
         -e "s#@HEADER@#$header#g" \
+        -e "s#@CLASS@#$klass#g" \
         $file;
 
     # Finally, generate the header as well
