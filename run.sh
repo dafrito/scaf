@@ -6,31 +6,40 @@ die() {
     exit 1
 }
 
-# A (hopefully) usable link to the scaf executable
-export SCAF=$0
+if  [ -z "$SCAF_INSTALLED" ]; then
+    # We're running this from the source repository, so fake a few
+    # things.
+
+    # A (hopefully) usable link to the scaf executable
+    SCAF=$0
+
+    # The root directory for scaf. In installed configurations, this
+    # won't be as necessary, since we'll use /usr/share for scaffold
+    # data and /usr/bin for scaf itself.
+    SCAFDIR=`dirname $0`
+fi;
+
 if [ ! -x $SCAF ]; then
     die "No valid path to scaf. SCAF: $SCAF";
 fi
+export SCAF
 
-# The root directory for scaf. In installed configurations, this
-# won't be as necessary, since we'll use /usr/share for scaffold
-# data and /usr/bin for scaf itself.
-scafdir=$HOME/src/scaf
-if [ ! -d "$scafdir" ]; then
-    die "No valid path to scaf's root directory. Attempted: $scafdir"
-fi;
-
-# A directory that contains all of scaf's supported types.
-scaffolds=$scafdir/types.d
-if [ ! -d "$scaffolds" ]; then
-    die "No valid path to scaf's types.d directory. Attempted: $scaffolds"
+if [ ! -d "$SCAFDIR" ]; then
+    die "No valid path to scaf's root directory. Attempted: $SCAFDIR"
 fi;
 
 # A directory that contains data used by scaf's types. Used by
 # supported clients, so it must be exported.
-export SCAFDATA=$scafdir/data
+SCAFDATA=$SCAFDIR/data
 if [ ! -d "$SCAFDATA" ]; then
     die "No valid path to scaf's data directory. Attempted: $SCAFDATA"
+fi;
+export SCAFDATA
+
+# A directory that contains all of scaf's supported types.
+scaffolds=$SCAFDIR/types.d
+if [ ! -d "$scaffolds" ]; then
+    die "No valid path to scaf's types.d directory. Attempted: $scaffolds"
 fi;
 
 usage() {
