@@ -83,12 +83,7 @@ fi;
 scaffold=$scaffolds/$SCAFFOLD_TYPE
 [ -x $scaffold ] || die "No scaffold for type: $type"
 
-
-# TODO Load .scafrc files in this order:
-# /etc/scafrc
-# /home/dafrito/.scafrc
-# And in every directory including the current (with /.scafrc first, to the
-# current directory last)
+source $SCAFDIR/load-defaults.sh
 
 source $scaffold $*;
 

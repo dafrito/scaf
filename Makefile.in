@@ -29,7 +29,7 @@ install: uninstall ${APP} | ${BINDIR} ${PKGDATADIR}
 	test -n ${BINDIR}
 	test -n ${PKGDATADIR}
 	cp ${APP} ${BINDIR}
-	cp -r data types.d ${PKGDATADIR}
+	cp -r data types.d load-defaults.sh ${PKGDATADIR}
 .PHONY: clean
 
 ${BINDIR} ${PKGDATADIR}:
