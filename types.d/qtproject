@@ -27,7 +27,7 @@ generate_scaffold() {
         done;
     fi;
 
-    pushd $file
+    pushd $file >/dev/null;
     echo "PROJECT=$project" >>.scafrc
 
     $SCAF qtmain src/main.cpp
@@ -46,7 +46,7 @@ generate_scaffold() {
     # Get Autotools setup
     autoreconf -i
 
-    popd;
+    popd >/dev/null;
 }
 
 if [ "$#" -eq 0 ]; then
