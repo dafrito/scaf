@@ -1,0 +1,14 @@
+PKGDATADIR=${DATADIR}/scaf
+
+all: scaf
+.PHONY: all
+
+scaf: run.sh | ${BINDIR} ${PKGDATADIR}
+	echo "SCAF_INSTALLED=true"     >$@-wip
+	echo "SCAF=${BINDIR}/scaf"    >>$@-wip
+	echo "SCAFDATA=${PKGDATADIR}" >>$@-wip
+	chmod ugo-w $@-wip
+	mv $@-wip $@
+
+${BINDIR} ${PKGDATADIR}:
+	mkdir -p $@
