@@ -1,0 +1,34 @@
+#!/bin/bash
+PATH=/bin:/usr/bin
+
+export SCAFDIR=$HOME/src/scaf
+export SCAFFOLDS=$SCAFDIR/types.d
+export SCAFFOLD_DATA=$SCAFDIR/data
+
+die() {
+    echo $* >&2
+    exit 1
+}
+
+usage() {
+    echo "USAGE: scaf TYPE FILE..." >&2
+}
+
+if [ "$#" -eq 0 ]; then
+    usage
+    die "No scaffold provided."
+fi;
+
+export SCAFFOLD_TYPE=$1
+shift
+
+[ -x $SCAFFOLDS/$type ] || die "No scaffold for type: $type"
+
+if [ "$#" -eq 0 ]; then
+    usage
+    die "No target file provided."
+fi;
+
+source $SCAFFOLDS/$SCAFFOLD_TYPE $*;
+
+# vim: set ts=4 sw=4 et :
