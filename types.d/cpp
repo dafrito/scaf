@@ -13,6 +13,8 @@ scaffold_header_file() {
         return;
     fi
     mkdir -p `dirname $f`;
+    # TODO We should support using a different file if the filename
+    # doesn't look like a class name
     cp $SCAFDATA/scaf.hpp $file
 
     header=`basename $file | \
@@ -38,6 +40,8 @@ scaffold_source_file() {
         return;
     fi
     mkdir -p `dirname $f`;
+    # TODO We should support using a different file if the filename
+    # doesn't look like a class name
     cp $SCAFDATA/scaf.cpp $file
 
     # Get the right header name
