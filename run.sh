@@ -43,12 +43,24 @@ if [ ! -d "$scaffolds" ]; then
 fi;
 
 usage() {
-    echo "USAGE: scaf [TYPE] FILE [OPTIONS...]" >&2
+    echo "USAGE: scaf [TYPE] FILE [OPTIONS...]"
+    for f in $scaffolds/*; do
+        if [ -f $f ] && [ ! -h $f ]; then
+            name=`basename $f`
+            desc=`sed -nre 's/^.*Description:\s+//p' $f`
+            if [ -n "$desc" ]; then
+                echo "	$name		$desc"
+            else
+                echo "	$name"
+            fi;
+        fi;
+    done;
 }
 
 if [ "$#" -eq 0 ]; then
-    usage
-    die "No scaffold provided."
+    echo "No scaffold provided." >&2
+    usage >&2
+    exit 1
 fi;
 
 # The chosen scaffold type
@@ -72,8 +84,9 @@ if [ ! -x $scaffold ]; then
             SCAFFOLD_TYPE=sh
         ;;
         *)
-            usage
-            die "No target file provided."
+            echo "No target file provided."  >&2
+            usage >&2
+            exit 1
         ;;
     esac;
     set $first $*

@@ -1,6 +1,8 @@
 #!/bin/bash
 PATH=/bin:/usr/bin
 
+# Description: Generate a Bash shell script
+
 die() {
     echo $* >&2
     exit 1;

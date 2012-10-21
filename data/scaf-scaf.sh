@@ -1,6 +1,8 @@
 #!/bin/bash
 PATH=/bin:/usr/bin
 
+# Description: Generate TODO Finish this
+
 die() {
     echo $* >&2
     exit 1;

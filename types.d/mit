@@ -1,6 +1,8 @@
 #!/bin/bash
 PATH=/bin:/usr/bin
 
+# Description: Generate a license file (defaults to LICENSE)
+
 die() {
     echo $* >&2
     exit 1;
