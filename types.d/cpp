@@ -1,0 +1,66 @@
+#!/bin/bash
+PATH=/bin:/usr/bin
+
+die() {
+	echo $* >&2
+	exit 1;
+}
+
+scaffold_header_file() {
+    file=$1
+    if [ -e $file ]; then
+        echo "$file already exists, ignoring." >&2
+        return;
+    fi
+    mkdir -p `dirname $f`;
+    cp $SCAFDATA/scaf.hpp $file
+
+    header=`basename $file | \
+        sed -re 's/\.[^.]+$//' \
+            -e 's/\./_/g' \
+            -e 's/^(.*)$/\U\1/'
+        `;
+
+    # Fill in the preprocessor lines
+    sed -i \
+        -e "s#@HEADER_DEFINE@#${header}_HEADER#g" \
+        $file;
+}
+
+scaffold_source_file() {
+    file=$1
+    if [ -e $file ]; then
+        echo "$file already exists, ignoring." >&2
+        return;
+    fi
+    mkdir -p `dirname $f`;
+    cp $SCAFDATA/scaf.cpp $file
+
+    # Get the right header name
+    header=`echo $file | sed -re 's/\.[^.]+$//'`;
+    case "$file" in
+        *.cpp) header="$header.hpp" ;;
+        *.cxx) header="$header.hxx" ;;
+        *.c) header="$header.h" ;;
+        *.C) header="$header.H" ;;
+        *) die "Unknown extension: $file" ;;
+    esac;
+
+    # Add a reference to the header
+    sed -i \
+        -e "s#@HEADER@#$header#g" \
+        $file;
+
+    # Finally, generate the header as well
+    scaffold_header_file $header
+}
+
+for f in $*; do
+    case "$f" in
+        *.h|*.hpp) scaffold_header_file $f ;;
+        *.c|*.cpp|*.C) scaffold_source_file $f ;;
+        *) scaffold_source_file $f.cpp ;;
+    esac;
+done;
+
+# vim: set ts=4 sw=4 et :
