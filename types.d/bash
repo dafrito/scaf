@@ -18,7 +18,7 @@ for f in $*; do
 
     if [ -n "$MODELINE" ]; then
         echo >>$f
-        echo "# $MODELINE" >>$f
+        echo "# vim: set $MODELINE :" >>$f
     fi
 done;
 

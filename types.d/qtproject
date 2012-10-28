@@ -23,7 +23,7 @@ generate_scaffold() {
     if [ -n "$MODELINE" ]; then
         for sourcefile in `find $file -name '*.cpp' -o -name '*.hpp'`; do
             echo >>$sourcefile
-            echo "// $MODELINE" >>$sourcefile
+            echo "// vim: set $MODELINE :" >>$sourcefile
         done;
     fi;
 

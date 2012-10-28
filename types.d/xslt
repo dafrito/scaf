@@ -16,7 +16,7 @@ generate_scaffold() {
 
     if [ -n "$MODELINE" ]; then
         echo >>$file
-        echo "<!-- $MODELINE -->" >>$file
+        echo "<!-- vim: set $MODELINE : -->" >>$file
     fi
 }
 

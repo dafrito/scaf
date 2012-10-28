@@ -18,7 +18,7 @@ generate_scaffold() {
     if [ -n "$MODELINE" ]; then
         echo >>$file
         # TODO Ensure this comment is correct
-        echo "# $MODELINE" >>$file
+        echo "# vim: set $MODELINE :" >>$file
     fi
 }
 

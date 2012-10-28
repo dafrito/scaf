@@ -33,7 +33,7 @@ scaffold_header_file() {
 
     if [ -n "$MODELINE" ]; then
         echo >>$file
-        echo "// $MODELINE" >> $file
+        echo "// vim: set $MODELINE :" >> $file
     fi;
 }
 
@@ -64,7 +64,7 @@ scaffold_source_file() {
 
     if [ -n "$MODELINE" ]; then
         echo >>$file
-        echo "// $MODELINE" >> $file
+        echo "// vim: set $MODELINE :" >> $file
     fi;
 
     # Finally, generate the header as well
