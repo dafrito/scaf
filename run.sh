@@ -49,10 +49,18 @@ usage() {
         if [ -f $f ] && [ ! -h $f ]; then
             name=`basename $f`
             desc=`sed -nre 's/^.*Description:\s+//p' $f`
-            # If these names get longer than 8 characters, we're going
-            # to have to fix the tabs.
+
+            namelen=`echo -n $name | wc -m`;
+            if [ $namelen -lt 8 ]; then
+                # Add two tabs
+                name="$name		";
+            elif [ $namelen -lt 16 ]; then
+                # Add one tab
+                name="$name	";
+            fi
+
             if [ -n "$desc" ]; then
-                echo "	$name		$desc"
+                echo "	$name $desc"
             else
                 echo "	$name"
             fi;
