@@ -77,6 +77,10 @@ if [ ! -x $scaffold ]; then
     # actual file, with the assumption that the scaffold type could be coerced
     # from that file.
     case "$SCAFFOLD_TYPE" in
+        *.xsl|*.xslt)
+            first=$SCAFFOLD_TYPE
+            SCAFFOLD_TYPE=xslt
+        ;;
         *.hpp|*.cpp|*.cxx|*.hxx|*.C|*.H)
             first=$SCAFFOLD_TYPE
             SCAFFOLD_TYPE=cpp
