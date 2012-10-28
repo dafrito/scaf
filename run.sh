@@ -76,17 +76,16 @@ if [ ! -x $scaffold ]; then
     # We didn't recognize the scaffold type. Let's assume we were given an
     # actual file, with the assumption that the scaffold type could be coerced
     # from that file.
-    case "$SCAFFOLD_TYPE" in
+    first=$SCAFFOLD_TYPE
+    set $first $*
+    case "$first" in
         *.xsl|*.xslt)
-            first=$SCAFFOLD_TYPE
             SCAFFOLD_TYPE=xslt
         ;;
         *.hpp|*.cpp|*.cxx|*.hxx|*.C|*.H)
-            first=$SCAFFOLD_TYPE
             SCAFFOLD_TYPE=cpp
         ;;
         *.sh)
-            first=$SCAFFOLD_TYPE
             SCAFFOLD_TYPE=sh
         ;;
         *)
@@ -96,7 +95,6 @@ if [ ! -x $scaffold ]; then
             exit 1
         ;;
     esac;
-    set $first $*
 fi;
 
 # Reset scaffold, since our type may have changed
