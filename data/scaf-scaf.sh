@@ -17,6 +17,7 @@ generate_scaffold() {
 
     if [ -n "$MODELINE" ]; then
         echo >>$file
+        # TODO Ensure this comment is correct
         echo "# $MODELINE" >>$file
     fi
 }
