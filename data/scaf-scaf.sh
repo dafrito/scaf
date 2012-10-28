@@ -13,7 +13,7 @@ generate_scaffold() {
     shift;
 
     # TODO Insert your scaffold here.
-    # cp $SCAFDATA/example.sh $file
+    # cp $SCAFDATA/scaf.foo $file
 
     if [ -n "$MODELINE" ]; then
         echo >>$file
