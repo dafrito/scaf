@@ -15,6 +15,11 @@ generate_scaffold() {
     # TODO Insert your scaffold here.
     # cp $SCAFDATA/scaf.foo $file
 
+    # Substitute any relevant args
+    sed -i -re "s/@YEAR@/`date +%Y`/g" \
+        -e "s:@USER@:`whoami`:g" \
+        $file;
+
     if [ -n "$MODELINE" ]; then
         echo >>$file
         # TODO Ensure this comment is correct
