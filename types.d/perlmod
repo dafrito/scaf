@@ -1,0 +1,54 @@
+#!/bin/bash
+PATH=/bin:/usr/bin
+
+# Description: Generate a skeleton Perl module
+
+die() {
+    echo $* >&2
+    exit 1;
+}
+
+generate_scaffold() {
+    file="$1"
+    shift
+
+    obj="$1"
+    shift
+
+    cp $SCAFDATA/scaf.pm $file
+
+    # Substitute any relevant args
+    sed -i -re "s/@CLASS@/$perlobj/g" \
+        $file;
+
+    if [ -n "$MODELINE" ]; then
+        echo >>$file
+        echo "# vim: set $MODELINE :" >>$file
+    fi
+}
+
+if [ "$#" -eq 0 ]; then
+    die "At least one file must be provided";
+fi;
+
+for file in $*; do
+    perlfile=`echo "$file" | sed 's#::#/#g'`;
+    perlobj=`echo "$file" | sed 's#/#::#g'`;
+
+    # Strip the .pm suffix if it was added
+    perlobj=`basename $perlobj .pm`
+
+    # Add the .pm suffix if needed
+    if ! echo $perlfile | grep -q '\.pm$'; then
+        perlfile="$perlfile.pm";
+    fi
+
+    mkdir -p `dirname $perlfile`
+    if [ -e $perlfile ]; then
+        echo "$perlfile already exists, ignoring." >&2
+    else
+        generate_scaffold "$perlfile" "$perlobj"
+    fi
+done;
+
+# vim: set ts=4 sw=4 :

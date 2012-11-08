@@ -93,6 +93,9 @@ if [ ! -x $scaffold ]; then
         *.hpp|*.cpp|*.cxx|*.hxx|*.C|*.H)
             SCAFFOLD_TYPE=cpp
         ;;
+        *.pl)
+            SCAFFOLD_TYPE=pl
+        ;;
         *.sh)
             SCAFFOLD_TYPE=sh
         ;;
