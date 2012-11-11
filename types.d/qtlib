@@ -27,7 +27,7 @@ generate_scaffold() {
     mv -v src/scaf.cpp src/$project_obj.cpp
     mv -v include/scaf.hpp include/$project_obj.hpp
 
-    find . -name '*.ac' -o -name '*.am' -o -name '*.cpp' -o -name '*.hpp' | xargs sed -ri \
+    find -type f | xargs sed -ri \
         -e "s/@@PROJECT@@/$project/g" \
         -e "s/@@PROJECT_OBJ@@/$project_obj/g" \
         -e "s/@@PROJECT_UPPER@@/$project_upper/g" \
