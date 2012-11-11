@@ -1,9 +1,3 @@
-a.out
-build
-artifacts
-Makefile
-run-tests
-
 # Object files
 lib*.so
 lib*.so.*
@@ -29,6 +23,10 @@ Makefile.in
 libtool
 ltmain.sh
 .deps
+.libs
+Makefile
+rpm.spec
 
-# Qt artifacts
-moc_*
+# Dist artifacts
+*.tar.gz
+*.rpm
