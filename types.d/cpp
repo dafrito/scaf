@@ -24,6 +24,9 @@ scaffold_header_file() {
     header_define=`echo $header | \
         sed -re 's/^(.*)$/\U\1/'
         `;
+    if [ -n "$PROJECT" ]; then
+        header_define=`echo $header_define | sed -re "s/^(.*)$/\U${PROJECT}_\1/"`;
+    fi;
 
     # Fill in the preprocessor lines
     sed -i \
