@@ -12,6 +12,10 @@ generate_scaffold() {
     file=$1;
     shift;
 
+    if ! echo $file | grep -q '\.cpp$'; then
+        file="$file.cpp"
+    fi;
+
     cp $SCAFDATA/qtmain.cpp $file
 
     project=${PROJECT:-Hello world};
