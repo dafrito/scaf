@@ -75,7 +75,7 @@ if [ "$#" -eq 0 ]; then
     die "At least one file must be provided";
 fi;
 
-for f in $*; do
+for file in $*; do
     mkdir -p `dirname $file`
     if [ -e $file ]; then
         echo "$file already exists, ignoring." >&2
