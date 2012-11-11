@@ -14,12 +14,12 @@ generate_scaffold() {
 
     cp -v -r $SCAFDATA/qtlib $file
 
+    pushd $file
+    echo "PROJECT=$project" >>.scafrc
+
     project=`basename $file`
     email=${EMAIL:-TODO@example.com}
     website=${WEBSITE:-http://www.TODO.com}
-
-    pushd $file
-    echo "PROJECT=$project" >>.scafrc
 
     project_obj=`echo $project | sed -re 's:^(.*)$:\u\1:'`
     project_upper=`echo $project | sed -re "s/^(.*)$/\U\1/"`;

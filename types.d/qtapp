@@ -14,10 +14,16 @@ generate_scaffold() {
 
     cp -v -r $SCAFDATA/qtapp $file
 
+    pushd $file
+    echo "PROJECT=$project" >>.scafrc
+
     project=`basename $file`
     email=${EMAIL:-TODO@example.com}
-    find $file -name '*.ac' -o -name '*.am' | xargs sed -ri \
+    website=${WEBSITE:-http://www.TODO.com}
+
+    find -type f | xargs sed -ri \
         -e "s/@@PROJECT@@/$project/g" \
+        -e "s|@@WEBSITE@@|$website|g" \
         -e "s|@@EMAIL@@|$email|g";
 
     if [ -n "$MODELINE" ]; then
@@ -26,9 +32,6 @@ generate_scaffold() {
             echo "// vim: set $MODELINE :" >>$sourcefile
         done;
     fi;
-
-    pushd $file
-    echo "PROJECT=$project" >>.scafrc
 
     $SCAF qtmain src/main
     $SCAF license
