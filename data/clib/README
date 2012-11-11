@@ -11,6 +11,7 @@ make check
 make install
 
 The project depends on the autotools, so you'll need to have automake, autoconf,
-and libtool available. You'll also need the Qt SDK installed.
+and libtool available. You'll also need the Boost unit testing framework if you
+want to run the tests.
 
 vim: set tw=80 :
