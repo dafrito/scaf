@@ -30,7 +30,7 @@ generate_scaffold() {
     pushd $file >/dev/null;
     echo "PROJECT=$project" >>.scafrc
 
-    $SCAF qtmain src/main.cpp
+    $SCAF qtmain src/main
     $SCAF license
 
     # Set up git

@@ -69,9 +69,6 @@ scaffold_source_file() {
         echo >>$file
         echo "// vim: set $MODELINE :" >> $file
     fi;
-
-    # Finally, generate the header as well
-    scaffold_header_file $header
 }
 
 if [ "$#" -eq 0 ]; then
@@ -86,7 +83,10 @@ for file in $*; do
         case "$file" in
             *.h|*.hpp) scaffold_header_file $file ;;
             *.c|*.cpp|*.C) scaffold_source_file $file ;;
-            *) scaffold_source_file $file.cpp ;;
+            *)
+                scaffold_source_file $file.cpp
+                scaffold_header_file $file.hpp
+            ;;
         esac;
     fi;
 done;
