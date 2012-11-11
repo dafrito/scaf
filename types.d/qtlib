@@ -16,6 +16,7 @@ generate_scaffold() {
 
     project=`basename $file`
     email=${EMAIL:-TODO@example.com}
+    website=${WEBSITE:-http://www.TODO.com}
 
     pushd $file
     echo "PROJECT=$project" >>.scafrc
@@ -30,6 +31,7 @@ generate_scaffold() {
         -e "s/@@PROJECT@@/$project/g" \
         -e "s/@@PROJECT_OBJ@@/$project_obj/g" \
         -e "s/@@PROJECT_UPPER@@/$project_upper/g" \
+        -e "s|@@WEBSITE@@|$website|g" \
         -e "s|@@EMAIL@@|$email|g";
 
     if [ -n "$MODELINE" ]; then
