@@ -1,7 +1,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.68])
-AC_INIT([@@PROJECT@@], [1.0], [@@EMAIL@@])
+AC_INIT([@@PROJECT@@], [1.0], [@@EMAIL@@], [@@PROJECT@@], [@@WEBSITE@@])
 AM_INIT_AUTOMAKE([-Wall foreign])
 LT_PREREQ([2.2])
 LT_INIT
@@ -30,5 +30,5 @@ AC_LANG([C++])
 
 # Checks for library functions.
 
-AC_CONFIG_FILES([Makefile src/Makefile include/Makefile tests/Makefile])
+AC_CONFIG_FILES([Makefile src/Makefile include/Makefile tests/Makefile rpm.spec])
 AC_OUTPUT
