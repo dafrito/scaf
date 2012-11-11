@@ -1,3 +1,7 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+
 package @CLASS@;
 require Exporter;
 
@@ -6,12 +10,12 @@ our @EXPORT  = qw(hello_world);
 our @VERSION = 1.00;
 
 sub new {
-    shift;
+    my $class = shift;
     my $self = {};
 
     # TODO Insert your constructor here
 
-    return bless $self;
+    return bless($self, $class);
 }
 
 sub hello_world {
