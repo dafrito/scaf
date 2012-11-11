@@ -39,7 +39,7 @@ for file in $*; do
     perlobj=`basename $perlobj .pm`
 
     # Add the .pm suffix if needed
-    if ! echo $perlfile | grep -q '\.pm$'; then
+    if ! echo $perlfile | grep -q '\.'; then
         perlfile="$perlfile.pm";
     fi
 
