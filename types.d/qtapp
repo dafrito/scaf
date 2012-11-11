@@ -12,7 +12,7 @@ generate_scaffold() {
     file=$1;
     shift;
 
-    cp -r $SCAFDATA/qtapp $file
+    cp -v -r $SCAFDATA/qtapp $file
 
     project=`basename $file`
     email=${EMAIL:-TODO@example.com}
@@ -27,26 +27,26 @@ generate_scaffold() {
         done;
     fi;
 
-    pushd $file >/dev/null;
+    pushd $file
     echo "PROJECT=$project" >>.scafrc
 
     $SCAF qtmain src/main
     $SCAF license
 
     # Set up git
-    git init -q .
+    git init .
     git add .
 
     # Force the addition of the m4/ directory, since it's ignored in .gitignore
     git add -f m4
 
     # Commit everything for our initial commit
-    git commit -q -m"Initial scaffold for an Autotools-backed Qt project"
+    git commit -m"Initial scaffold for an Autotools-backed Qt project"
 
     # Get Autotools setup
     autoreconf -i
 
-    popd >/dev/null;
+    popd
 }
 
 if [ "$#" -eq 0 ]; then
