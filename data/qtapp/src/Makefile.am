@@ -3,18 +3,18 @@ QT_LIBS = @QT_LIBS@
 QT_MOC = @QT_MOC@
 
 bin_PROGRAMS = @@PROJECT@@
-@@PROJECT@@_CPPFLAGS = @QT_CXXFLAGS@
-@@PROJECT@@_LDADD = @QT_LIBS@
+@@PROJECT_PRIMARY@@_CPPFLAGS = @QT_CXXFLAGS@
+@@PROJECT_PRIMARY@@_LDADD = @QT_LIBS@
 
 # moc-generated source files
-@@PROJECT@@_MOC_SOURCES = 
+@@PROJECT_PRIMARY@@_MOC_SOURCES = 
 
-@@PROJECT@@_SOURCES = \
-	$(@@PROJECT@@_MOC_SOURCES) \
+@@PROJECT_PRIMARY@@_SOURCES = \
+	$(@@PROJECT_PRIMARY@@_MOC_SOURCES) \
 	main.cpp
 
 mostlyclean-local:
-	rm -f $(@@PROJECT@@_MOC_SOURCES)
+	rm -f $(@@PROJECT_PRIMARY@@_MOC_SOURCES)
 .PHONY: mostlyclean-local
 
 moc_%.cpp: %.hpp

@@ -30,9 +30,9 @@ generate_scaffold() {
     email=${EMAIL:-TODO@example.com}
     website=${WEBSITE:-http://www.TODO.com}
 
-    project_obj=`echo $project | sed -re 's:^(.*)$:\u\1:'`
-    project_upper=`echo $project | sed -re "s/^(.*)$/\U\1/"`;
-    project_underscore=`echo $project_upper | sed -re "s/[- ]/_/g"`;
+    project_obj=`echo $project | sed -re 's:^(.*)$:\u\1:' -e 's/[- ]//g'`
+    project_primary=`echo $project | sed -re 's/[- +]/_/g'`
+    project_define=`echo $project | sed -re "s/^(.*)$/\U\1/" -e 's/[- ]/_/g'`;
 
     mv -v src/scaf.cpp src/$project_obj.cpp
     mv -v include/scaf.hpp include/$project_obj.hpp
@@ -41,8 +41,8 @@ generate_scaffold() {
     find -type f | xargs sed -ri \
         -e "s/@@PROJECT@@/$project/g" \
         -e "s/@@PROJECT_OBJ@@/$project_obj/g" \
-        -e "s/@@PROJECT_UPPER@@/$project_upper/g" \
-        -e "s/@@PROJECT_UNDERSCORE@@/$project_underscore/g" \
+        -e "s/@@PROJECT_PRIMARY@@/$project_primary/g" \
+        -e "s/@@PROJECT_DEFINE@@/$project_define/g" \
         -e "s|@@WEBSITE@@|$website|g" \
         -e "s/@@YEAR@@/`date +%Y`/g" \
         -e "s:@@OWNER@@:`realname`:g" \
