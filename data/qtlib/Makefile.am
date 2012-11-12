@@ -1,6 +1,9 @@
 ACLOCAL_AMFLAGS = -I m4
 SUBDIRS = src include tests
 
+pkgdata_DATA = \
+	@@PROJECT@@.m4
+
 export RPMDIR ?= $$HOME/rpmbuild
 
 RPMFLAGS ?= --ba
