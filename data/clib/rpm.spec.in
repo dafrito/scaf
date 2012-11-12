@@ -27,6 +27,6 @@ make %{?_smp_mflags}
 make install DESTDIR=%{buildroot}
 
 %files
-%{_includedir}/@PACKAGE_NAME@/*
+%{_includedir}/*
 %{_libdir}/*
 %{_datadir}/@PACKAGE_NAME@/@PACKAGE_NAME@.m4
