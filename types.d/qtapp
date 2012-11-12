@@ -58,6 +58,7 @@ generate_scaffold() {
 
     # Set up git
     git init .
+    git commit -m"Initial commit" --allow-empty
     git add .
 
     # Force the addition of the m4/ directory, since it's ignored in .gitignore
