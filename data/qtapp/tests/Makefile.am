@@ -15,8 +15,15 @@ runtest_SOURCES =         \
 	tests.cpp             \
 	BasicTests.hpp
 
-nodist_runtest_SOURCES =      \
+runtest_MOC_SOURCES = \
 	moc_BasicTests.cpp
+
+nodist_runtest_SOURCES =      \
+	$(runtest_MOC_SOURCES)
+
+mostlyclean-local:
+	rm -f $(runtest_MOC_SOURCES)
+.PHONY: mostlyclean-local
 
 tests.cpp: $(addsuffix .hpp, $(test_suites))
 	rm -f $@
