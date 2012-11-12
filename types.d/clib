@@ -67,6 +67,7 @@ generate_scaffold() {
 
     # Commit everything for our initial commit
     git commit -m"Initial scaffold for an Autotools-backed C++ library"
+    git tag scaffold
 
     # Get Autotools setup
     autoreconf -i
