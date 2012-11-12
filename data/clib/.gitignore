@@ -26,6 +26,7 @@ ltmain.sh
 .libs
 Makefile
 rpm.spec
+@@PROJECT@@.m4
 
 # Dist artifacts
 *.tar.gz

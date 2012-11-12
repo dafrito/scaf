@@ -29,3 +29,4 @@ make install DESTDIR=%{buildroot}
 %files
 %{_includedir}/@PACKAGE_NAME@/*
 %{_libdir}/*
+%{_datadir}/@PACKAGE_NAME@/@PACKAGE_NAME@.m4

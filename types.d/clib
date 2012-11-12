@@ -8,6 +8,15 @@ die() {
     exit 1;
 }
 
+realname() {
+    if [ -n "$OWNER" ]; then
+        echo $OWNER
+    else
+        # Extract a name from the passwd file
+        grep "^`whoami`" /etc/passwd | cut -d: -f5
+    fi;
+}
+
 generate_scaffold() {
     file=$1;
     shift;
@@ -23,15 +32,20 @@ generate_scaffold() {
 
     project_obj=`echo $project | sed -re 's:^(.*)$:\u\1:'`
     project_upper=`echo $project | sed -re "s/^(.*)$/\U\1/"`;
+    project_underscore=`echo $project_upper | sed -re "s/[- ]/_/g"`;
 
     mv -v src/scaf.cpp src/$project_obj.cpp
     mv -v include/scaf.hpp include/$project_obj.hpp
+    mv -v scaf.m4 $project.m4.in
 
     find -type f | xargs sed -ri \
         -e "s/@@PROJECT@@/$project/g" \
         -e "s/@@PROJECT_OBJ@@/$project_obj/g" \
         -e "s/@@PROJECT_UPPER@@/$project_upper/g" \
+        -e "s/@@PROJECT_UNDERSCORE@@/$project_underscore/g" \
         -e "s|@@WEBSITE@@|$website|g" \
+        -e "s/@@YEAR@@/`date +%Y`/g" \
+        -e "s:@@OWNER@@:`realname`:g" \
         -e "s|@@EMAIL@@|$email|g";
 
     if [ -n "$MODELINE" ]; then
