@@ -1,7 +1,3 @@
-QT_CXXFLAGS = @QT_CXXFLAGS@
-QT_LIBS = @QT_LIBS@
-QT_MOC = @QT_MOC@
-
 lib_LTLIBRARIES = lib@@PROJECT@@.la
 lib@@PROJECT_PRIMARY@@_la_CPPFLAGS = @QT_CXXFLAGS@ -I$(top_srcdir)/include
 lib@@PROJECT_PRIMARY@@_la_LIBADD = @QT_LIBS@
@@ -18,4 +14,4 @@ mostlyclean-local:
 .PHONY: mostlyclean-local
 
 moc_%.cpp: $(top_srcdir)/include/%.hpp
-	$(QT_MOC) -o $@ $<
+	@QT_MOC@ -o $@ $<

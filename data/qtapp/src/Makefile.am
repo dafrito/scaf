@@ -1,7 +1,3 @@
-QT_CXXFLAGS = @QT_CXXFLAGS@
-QT_LIBS = @QT_LIBS@
-QT_MOC = @QT_MOC@
-
 bin_PROGRAMS = @@PROJECT@@
 @@PROJECT_PRIMARY@@_CPPFLAGS = @QT_CXXFLAGS@
 @@PROJECT_PRIMARY@@_LDADD = @QT_LIBS@
@@ -18,4 +14,4 @@ mostlyclean-local:
 .PHONY: mostlyclean-local
 
 moc_%.cpp: %.hpp
-	$(QT_MOC) -o $@ $<
+	@QT_MOC@ -o $@ $<

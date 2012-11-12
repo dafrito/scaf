@@ -1,10 +1,6 @@
-QT_CXXFLAGS = @QT_CXXFLAGS@
-QT_LIBS = @QT_LIBS@
-QT_MOC = @QT_MOC@
-
 check_PROGRAMS = runtest
-runtest_CXXFLAGS = $(AM_CXXFLAGS) $(QT_CXXFLAGS) -I$(top_srcdir)/include -I$(top_srcdir)/src
-runtest_LDADD = $(QT_LIBS) ../src/lib@@PROJECT@@.la
+runtest_CXXFLAGS = $(AM_CXXFLAGS) @QT_CXXFLAGS@ -I$(top_srcdir)/include -I$(top_srcdir)/src
+runtest_LDADD = @QT_LIBS@ ../src/lib@@PROJECT@@.la
 
 TESTS = $(check_PROGRAMS)
 
@@ -32,4 +28,4 @@ tests.cpp: $(addsuffix .hpp, $(test_suites))
 	chmod -w $@
 
 moc_%.cpp: %.hpp
-	$(QT_MOC) -o $@ $<
+	@QT_MOC@ -o $@ $<
