@@ -27,13 +27,23 @@ generate_scaffold() {
     fi
 }
 
+files=
+for arg in $*; do
+    case "$arg" in
+        -f|--force) FORCE=true ;;
+        -*) die "Unrecognized command: $arg" ;;
+        *) files="$files $arg" ;;
+    esac
+done;
+set $files
+
 if [ "$#" -eq 0 ]; then
     die "At least one file must be provided";
 fi;
 
 for file in $*; do
     mkdir -p `dirname $file`
-    if [ -e $file ]; then
+    if [ -z "$FORCE" ] && [ -e $file ]; then
         echo "$file already exists, ignoring." >&2
     else
         generate_scaffold $file
