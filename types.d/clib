@@ -21,12 +21,12 @@ generate_scaffold() {
     file=$1;
     shift;
 
-    cp -v -r $SCAFDATA/clib $file
+    rsync -avzih $SCAFDATA/clib/ $file
 
     pushd $file
-    echo "PROJECT=$project" >>.scafrc
+    file=`pwd`
 
-    project=`basename $file`
+    project=${PROJECT:-`basename $file`}
     email=${EMAIL:-TODO@example.com}
     website=${WEBSITE:-http://www.TODO.com}
 
@@ -34,9 +34,13 @@ generate_scaffold() {
     project_primary=`echo $project | sed -re 's/[- +]/_/g'`
     project_define=`echo $project | sed -re "s/^(.*)$/\U\1/" -e 's/[- ]/_/g'`;
 
-    mv -v src/scaf.cpp src/$project_obj.cpp
-    mv -v include/scaf.hpp include/$project_obj.hpp
-    mv -v scaf.m4 $project.m4.in
+    if [ ! -e .scafrc ] || ! grep -q 'PROJECT=' .scafrc; then
+        echo "PROJECT=$project" >>.scafrc
+    fi;
+
+    mv -v -n src/scaf.cpp src/$project_obj.cpp
+    mv -v -n include/scaf.hpp include/$project_obj.hpp
+    mv -v -n scaf.m4 $project.m4.in
 
     find -type f | xargs sed -ri \
         -e "s/@@PROJECT@@/$project/g" \
@@ -50,24 +54,28 @@ generate_scaffold() {
 
     if [ -n "$MODELINE" ]; then
         for sourcefile in `find . -name '*.cpp' -o -name '*.hpp'`; do
-            echo >>$sourcefile
-            echo "// vim: set $MODELINE :" >>$sourcefile
+            if ! grep -q 'vim:' $sourcefile; then
+                echo >>$sourcefile
+                echo "// vim: set $MODELINE :" >>$sourcefile
+            fi;
         done;
     fi;
 
-    $SCAF license
+    $SCAF license LICENSE
 
-    # Set up git
-    git init .
-    git commit -m"Initial commit" --allow-empty
-    git add .
+    if [ -z "$NO_GIT" ] && [ ! -e .git ]; then
+        # Set up git
+        git init .
+        git commit -m"Initial commit" --allow-empty
+        git add .
 
-    # Force the addition of the m4/ directory, since it's ignored in .gitignore
-    git add -f m4
+        # Force the addition of the m4/ directory, since it's ignored in .gitignore
+        git add -f m4
 
-    # Commit everything for our initial commit
-    git commit -m"Initial scaffold for an Autotools-backed C++ library"
-    git tag scaffold
+        # Commit everything for our initial commit
+        git commit -m"Initial scaffold for an Autotools-backed C++ library"
+        git tag scaffold
+    fi;
 
     # Get Autotools setup
     autoreconf -i
@@ -75,13 +83,24 @@ generate_scaffold() {
     popd
 }
 
+files=
+for arg in $*; do
+    case "$arg" in
+        --without-git) NO_GIT=true ;;
+        -f|--force) FORCE=true ;;
+        -*) die "Unrecognized command: $arg" ;;
+        *) files="$files $arg" ;;
+    esac
+done;
+set $files
+
 if [ "$#" -eq 0 ]; then
     die "At least one file must be provided";
 fi;
 
 for file in $*; do
     mkdir -p `dirname $file`
-    if [ -e $file ]; then
+    if [ -z "$FORCE" ] && [ -e $file ]; then
         echo "$file already exists, ignoring." >&2
     else
         generate_scaffold $file
