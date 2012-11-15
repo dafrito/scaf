@@ -8,17 +8,38 @@ die() {
     exit 1;
 }
 
+generate_scaffold() {
+    file="$1"
+    shift
+
+    cp $SCAFDATA/scaf.sh $file
+
+    if [ -n "$MODELINE" ]; then
+        echo >>$file
+        echo "# vim: set $MODELINE :" >>$file
+    fi
+}
+
+files=
+for arg in $*; do
+    case "$arg" in
+        -f|--force) FORCE=true ;;
+        -*) die "Unrecognized command: $arg" ;;
+        *) files="$files $arg" ;;
+    esac
+done;
+set $files
+
 if [ "$#" -eq 0 ]; then
     die "At least one file must be provided";
 fi;
 
-for f in $*; do
-    mkdir -p `dirname $f`
-    cp $SCAFDATA/scaf.sh $f
-
-    if [ -n "$MODELINE" ]; then
-        echo >>$f
-        echo "# vim: set $MODELINE :" >>$f
+for file in $*; do
+    mkdir -p `dirname $file`
+    if [ -z "$FORCE" ] && [ -e $file ]; then
+        echo "$file already exists, ignoring." >&2
+    else
+        generate_scaffold $file
     fi
 done;
 
