@@ -21,7 +21,7 @@ mostlyclean-local:
 	rm -f $(runtest_MOC_SOURCES)
 .PHONY: mostlyclean-local
 
-tests.cpp: $(addsuffix .hpp, $(test_suites))
+tests.cpp: make_wrapper.sh $(addsuffix .hpp, $(test_suites))
 	rm -f $@
 	./make_wrapper.sh $^ >$@-wip
 	mv $@-wip $@

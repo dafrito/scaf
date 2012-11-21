@@ -6,6 +6,9 @@ echo "// DO NOT MANUALLY EDIT THIS FILE"
 echo
 
 for f in $*; do
+    if test $f = "make_wrapper.sh"; then
+        continue;
+    fi;
 	echo "#include \"$f\""
 done
 echo
@@ -14,7 +17,10 @@ echo "int main(int argc, char *argv[])"
 echo -n "{"
 
 for f in $*; do
-	className=`basename $f .hpp`
+    if test $f = "make_wrapper.sh"; then
+        continue;
+    fi;
+	className=`basename $f .h`
 	echo
 	echo "    $className test_$className;"
 	echo "    QTest::qExec(&test_$className, argc, argv);"
