@@ -323,8 +323,8 @@ AC_DEFUN([_AX_HAVE_QT_ADD_MODULE], [
            ax_qt_module=$1
    ax_qt_module_headers="$2"
   # Program body         3
-  ax_qt_module_CXXFLAGS=$4
-      ax_qt_module_LIBS=$5
+  ax_qt_module_CXXFLAGS="$4"
+      ax_qt_module_LIBS="$5"
   # Action if successful 6
   # Action if failed     7
 
