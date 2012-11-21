@@ -38,9 +38,21 @@ generate_scaffold() {
         echo "PROJECT=$project" >>.scafrc
     fi;
 
-    mv -v -n src/scaf.cpp src/$project_obj.cpp
-    mv -v -n include/scaf.hpp include/$project_obj.hpp
-    mv -v -n scaf.m4 $project.m4.in
+    if [ ! -e src/$project_obj.cpp ]; then
+        mv -v -n src/scaf.cpp src/$project_obj.cpp
+    else
+        rm src/scaf.cpp
+    fi
+    if [ ! -e include/$project_obj.hpp ]; then
+        mv -v -n include/scaf.hpp include/$project_obj.hpp
+    else
+        rm include/scaf.hpp
+    fi;
+    if [ ! -e $project.m4.in ]; then
+        mv -v -n scaf.m4 $project.m4.in
+    else
+        rm scaf.m4
+    fi;
 
     find -type f | xargs sed -ri \
         -e "s/@@PROJECT@@/$project/g" \
