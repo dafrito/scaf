@@ -22,9 +22,14 @@ make rpm || die
 
 specfile=$SRCDIR/rpm.spec
 if [ ! -e "$specfile" ]; then
-    specfile=$RPMDIR/SPECS/`cat .fullname`.spec
-    [ -e "$specfile" ] || die "No specfile found"
+    specfile=$SRCDIR/`basename $SRCDIR`.spec
 fi;
+if [ ! -e "$specfile" ]; then
+    specfile=$RPMDIR/SPECS/`cat .fullname`.spec
+fi;
+if [ ! -e "$specfile" ]; then
+    die "No specfile found"
+fi
 
 for package in `rpm -q --specfile $specfile`; do
 	arch=`echo $package | grep -E -o '[^.]+$'`
