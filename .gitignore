@@ -1,3 +1,7 @@
 *-wip
 Makefile
 scaf
+
+scaf.spec
+scaf.tar.gz
+scaf*.rpm
