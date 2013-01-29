@@ -85,7 +85,7 @@ uninstall:
 .PHONY: uninstall
 
 clean:
-	rm -f ${APP} *-wip
+	rm -f ${APP} *-wip $(tarfile) $(APP)-*.rpm $(APP).spec
 .PHONY: clean
 
 realclean: clean
