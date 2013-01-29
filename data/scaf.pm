@@ -1,8 +1,11 @@
 #!/usr/bin/perl
+package @CLASS@;
+
 use strict;
 use warnings;
 
-package @CLASS@;
+use Carp;
+
 require Exporter;
 
 our @ISA     = qw(Exporter);
