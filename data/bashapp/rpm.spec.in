@@ -1,0 +1,38 @@
+Version:	17
+Release:    1%{?dist}
+Summary:    TODO Write one-line specfile summary
+
+Group:      TODO Categorize this project in the specfile
+License:    MIT
+URL:        @@WEBSITE@@
+Source0:    @@WEBSITE@@/%{fullname}.tar.gz
+BuildRoot:  %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
+
+BuildArch:  noarch
+Requires:   fedora-release >= %{version}
+
+%description
+TODO Write specfile description paragraph
+
+%prep
+%setup -q -n %{fullname}
+./configure $RPM_BUILD_ROOT
+
+%build
+make
+
+%install
+[ "$RPM_BUILD_ROOT" != "/" ] && rm -rf $RPM_BUILD_ROOT
+make install
+
+%clean
+[ "$RPM_BUILD_ROOT" != "/" ] && rm -rf $RPM_BUILD_ROOT
+
+%files
+%defattr(-,root,root,-)
+/bin/*
+/share/@@PROJECT@@/*
+
+%changelog
+* @@DATE@@ @@OWNER@@ <@@EMAIL@@> - 1.0-1
+- Initial release

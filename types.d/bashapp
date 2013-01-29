@@ -41,6 +41,7 @@ generate_scaffold() {
         -e "s/@@PROJECT_UPPER@@/$project_upper/g" \
         -e "s|@@WEBSITE@@|$website|g" \
         -e "s/@@YEAR@@/`date +%Y`/g" \
+        -e "s/@@DATE@@/`date +'%a %b %d %Y'`/g" \
         -e "s:@@OWNER@@:`realname`:g" \
         -e "s|@@EMAIL@@|$email|g";
 

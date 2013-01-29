@@ -3,6 +3,8 @@ APP=@@PROJECT@@
 # This must always contain a package-specific subdirectory
 PKGDATADIR=${DATADIR}/${APP}
 
+RPMDIR ?= $$HOME/rpmbuild
+
 all: ${APP}
 .PHONY: all
 
@@ -33,6 +35,45 @@ install: uninstall ${APP} | ${BINDIR} ${PKGDATADIR}
 
 ${BINDIR} ${PKGDATADIR}:
 	mkdir -p $@
+
+tarfile=$(APP).tar.gz
+
+dist-gzip: $(tarfile)
+.PHONY: tar
+
+$(tarfile): $(APP) *.sh configure Makefile.in
+	tar czf $@ \
+		--exclude-vcs \
+		--exclude-backups \
+		--exclude='release/**' \
+		--exclude='**-wip' \
+		--transform='s,^,$(APP)/,g' \
+		$^;
+
+spec: $(APP).spec
+.PHONY: spec
+
+$(APP).spec: rpm.spec.in
+	echo "%define fullname $(APP)"       >$@-wip
+	echo                                >>$@-wip
+	echo "Name: $(APP)"                 >>$@-wip
+	cat $^                              >>$@-wip
+	mv $@-wip $@
+
+rpm: dist-gzip $(APP).spec | $(RPMDIR)
+	cp -u $(tarfile) $(RPMDIR)/SOURCES
+	cp -u $(APP).spec $(RPMDIR)/SPECS
+	rpmbuild --ba $(RPMDIR)/SPECS/$(APP).spec
+	for package in `rpm -q --specfile ./$(APP).spec`; do \
+		arch=`echo $$package | grep -E -o '[^.]+$$'`; \
+		filename="$(RPMDIR)/RPMS/$$arch/$$package.rpm"; \
+		[ -e `basename $$filename` ] || ln -s $$filename; \
+	done
+.PHONY: rpm
+
+$(RPMDIR):
+	mkdir -p $@
+	cd $@ && mkdir -p SOURCES SPECS BUILD RPMS SRPMS
 
 uninstall:
 	# Verify these variables are given
