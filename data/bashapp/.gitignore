@@ -1,2 +1,6 @@
+# Build artifacts
 @@PROJECT@@
+@@PROJECT@@.spec
+@@PROJECT@@-*.rpm
+@@PROJECT@@.tar.gz
 Makefile
