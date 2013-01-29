@@ -1,0 +1,10 @@
+TODO Write a one-line description for this project
+
+### Installation
+
+perl Makefile.PL
+make
+make test
+make install
+
+vim: set tw=80 ft=markdown :
