@@ -1,7 +1,7 @@
 #!/bin/bash
 PATH=/bin:/usr/bin
 
-# Description: Generate a Autotools-backed Qt library project
+# Description: Generate an Autotools-backed Qt library project
 
 die() {
     echo $* >&2
