@@ -12,7 +12,7 @@ REPODIR="$*"
 
 RPMDIR=$HOME/rpmbuild
 
-# TODO Set the source path
+# TODO Ensure the source path is correct
 SRCDIR=$HOME/src/@FILE@
 
 cd $SRCDIR || die
