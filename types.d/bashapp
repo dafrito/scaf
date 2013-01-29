@@ -1,0 +1,93 @@
+#!/bin/bash
+PATH=/bin:/usr/bin
+
+# Description: Generate a Bash application project
+
+die() {
+    echo $* >&2
+    exit 1;
+}
+
+realname() {
+    if [ -n "$OWNER" ]; then
+        echo $OWNER
+    else
+        # Extract a name from the passwd file
+        grep "^`whoami`" /etc/passwd | cut -d: -f5
+    fi;
+}
+
+generate_scaffold() {
+    file=$1;
+    shift;
+
+    rsync -avzih $SCAFDATA/bashapp/ $file
+
+    pushd $file
+    file=`pwd`
+
+    project=`basename $file`
+    email=${EMAIL:-TODO@example.com}
+    website=${WEBSITE:-http://www.TODO.com}
+
+    project_upper=`echo $project | sed -re "s/^(.*)$/\U\1/" -e 's/[- ]/_/g'`;
+
+    if [ ! -e .scafrc ] || ! grep -q 'PROJECT=' .scafrc; then
+        echo "PROJECT=$project" >>.scafrc
+    fi;
+
+    find -type f | xargs sed -ri \
+        -e "s/@@PROJECT@@/$project/g" \
+        -e "s/@@PROJECT_UPPER@@/$project_upper/g" \
+        -e "s|@@WEBSITE@@|$website|g" \
+        -e "s/@@YEAR@@/`date +%Y`/g" \
+        -e "s:@@OWNER@@:`realname`:g" \
+        -e "s|@@EMAIL@@|$email|g";
+
+    if [ -n "$MODELINE" ]; then
+        for sourcefile in `find . -name '*.sh'`; do
+            if ! grep -q 'vim:' $sourcefile; then
+                echo >>$sourcefile
+                echo "# vim: set $MODELINE :" >>$sourcefile
+            fi;
+        done;
+    fi;
+
+    $SCAF license LICENSE
+
+    if [ -z "$NO_GIT" ] && [ ! -e .git ]; then
+        # Set up git
+        git init .
+        git commit -m"Initial commit" --allow-empty
+        git add .
+
+        # Commit everything for our initial commit
+        git commit -m"Initial scaffold for a Bash application project"
+        git tag scaffold
+    fi;
+}
+
+files=
+for arg in $*; do
+    case "$arg" in
+        -f|--force) FORCE=true ;;
+        -*) die "Unrecognized command: $arg" ;;
+        *) files="$files $arg" ;;
+    esac
+done;
+set $files
+
+if [ "$#" -eq 0 ]; then
+    die "At least one file must be provided";
+fi;
+
+for file in $*; do
+    mkdir -p `dirname $file`
+    if [ -z "$FORCE" ] && [ -e $file ]; then
+        echo "$file already exists, ignoring." >&2
+    else
+        generate_scaffold $file
+    fi
+done;
+
+# vim: set ts=4 sw=4 :

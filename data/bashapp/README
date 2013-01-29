@@ -1,0 +1,9 @@
+TODO One-line summary
+
+### Installation
+
+./configure [PREFIX]
+make
+make install
+
+vim: set tw=80 ft=markdown :
