@@ -39,6 +39,7 @@ generate_scaffold() {
 
     find -type f | xargs sed -ri \
         -e "s/@@PROJECT@@/$project/g" \
+        -e "s#@@PROJECT_SPECNAME@@#perl-`echo $project | sed -re 's#::#-#g'`#g" \
         -e "s#@@PROJECT_MODULE_PATH@@#`echo $project | sed -re 's#::#/#g' | xargs dirname`#g" \
         -e "s/@@PROJECT_MODULE@@/`echo $project | sed -re 's#::#/#g' | xargs basename`/g" \
         -e "s/@@PROJECT_DASHES@@/$project_dashes/g" \
@@ -54,9 +55,9 @@ generate_scaffold() {
     popd
 
     if [ -e $project_dashes.spec ]; then
-        rm scaf.spec
+        rm perllib.spec
     else
-        mv scaf.spec $project_dashes.spec
+        mv perllib.spec $project_dashes.spec
     fi;
 
     if [ -n "$MODELINE" ]; then
