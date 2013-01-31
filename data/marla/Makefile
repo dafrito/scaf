@@ -50,7 +50,7 @@ $(SITE).tar.gz: cgi static httpd.conf Makefile site.config
 		--exclude-backups \
 		--exclude='README' \
 		--exclude='**-wip' \
-		--transform='s,^,$(SITE),g' \
+		--transform='s,^,$(SITE)/,g' \
 		$^;
 
 spec: rpm.spec
