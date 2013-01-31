@@ -1,0 +1,13 @@
+%package @PACKAGE@
+Release:	1%{?dist}
+Summary:	Content and configuration for @SITE@
+Group:		Applications/Internet
+URL:		http://@SITE@
+Requires: %{projectname}-%{buildname}
+
+%description @PACKAGE@
+Apache configuration, static files, and dynamic content for @SITE@.
+
+%files @PACKAGE@
+/etc/httpd/conf/marla/sites.d/@PACKAGE@.conf
+/usr/share/marla/@SITE@
