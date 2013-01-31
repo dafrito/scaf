@@ -65,7 +65,8 @@ generate_scaffold() {
         git add .
 
         # Commit everything for our initial commit
-        git commit -m"Initial scaffold for a Bash application project"
+        # TODO Ensure this commit comment works for you
+        git commit -m"Initial scaffold for this project"
         git tag scaffold
     fi;
 }
