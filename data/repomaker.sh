@@ -17,6 +17,7 @@ SRCDIR=$HOME/src/@FILE@
 
 cd $SRCDIR || die
 
+# TODO Ensure the build process is correct
 ./configure || die
 make rpm || die
 
