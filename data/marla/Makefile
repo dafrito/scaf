@@ -44,7 +44,7 @@ $(httpdconf): $(HTTPDETC)/sites.d httpd.conf
 tar: $(SITE).tar.gz
 .PHONY: tar
 
-$(SITE).tar.gz: cgi static httpd.conf Makefile
+$(SITE).tar.gz: cgi static httpd.conf Makefile site.config
 	tar cvzf $@ \
 		--exclude-vcs \
 		--exclude-backups \
