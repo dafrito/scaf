@@ -21,17 +21,18 @@ generate_scaffold() {
     project=$1
     shift;
 
-    email=${EMAIL:-TODO@example.com}
-    website=${WEBSITE:-http://www.TODO.com}
-
     # TODO Insert the scaffold directory
     rsync -avzih $SCAFDATA/YOUR_SCAFFOLD_DIR/ $project || die
 
     pushd $project || die
     project=`pwd`
+    project=`basename $project`
+
+    email=${EMAIL:-TODO@example.com}
+    website=${WEBSITE:-http://www.TODO.com}
 
     if [ ! -e .scafrc ] || ! grep -q 'PROJECT=' .scafrc; then
-        echo "PROJECT=`basename $project`" >>.scafrc
+        echo "PROJECT=$project" >>.scafrc
     fi;
 
     # TODO Insert any additional file creation here
