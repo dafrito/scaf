@@ -31,10 +31,9 @@ generate_scaffold() {
     rsync -avzih $SCAFDATA/perllib/ $project_dashes || die
 
     pushd $project_dashes || die
-    file=`pwd`
 
     if [ ! -e .scafrc ] || ! grep -q 'PROJECT=' .scafrc; then
-        echo "PROJECT=$project" >>.scafrc
+        echo "PROJECT=`basename $project`" >>.scafrc
     fi;
 
     find -type f | xargs sed -ri \
