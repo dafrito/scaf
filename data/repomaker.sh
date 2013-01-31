@@ -20,9 +20,9 @@ cd $SRCDIR || die
 ./configure || die
 make rpm || die
 
-specfile=$SRCDIR/rpm.spec
+specfile=rpm.spec
 if [ ! -e "$specfile" ]; then
-    specfile=$SRCDIR/`basename $SRCDIR`.spec
+    specfile=`basename $SRCDIR`.spec
 fi;
 if [ ! -e "$specfile" ]; then
     specfile=$RPMDIR/SPECS/`cat .fullname`.spec
