@@ -2,7 +2,8 @@
 @@PROJECT_DASHES@@.spec
 @@PROJECT@@-*.rpm
 @@PROJECT_DASHES@@.tar.gz
-Makefile
+/Makefile
+/Makefile.old
 
 /*.rpm
 /*.tar.gz
