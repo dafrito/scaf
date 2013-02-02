@@ -44,6 +44,7 @@ generate_scaffold() {
 
     # Substitute any relevant args
     find -type f | xargs sed -ri \
+        -e "s|@@SITE@@|$project|g" \
         -e "s/@@PROJECT@@/$project/g" \
         -e "s|@@WEBSITE@@|$website|g" \
         -e "s/@@YEAR@@/`date +%Y`/g" \
