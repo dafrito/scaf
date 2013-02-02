@@ -1,5 +1,9 @@
 include site.config
 
+BUILDNAME ?= headless
+
+include config/$(BUILDNAME).config
+
 build:
 .PHONY: build
 
