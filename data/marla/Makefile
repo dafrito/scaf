@@ -44,7 +44,7 @@ $(httpdconf): $(HTTPDETC)/sites.d httpd.conf
 tar: $(SITE).tar.gz
 .PHONY: tar
 
-$(SITE).tar.gz: cgi static httpd.conf Makefile site.config
+$(SITE).tar.gz: src static httpd.conf Makefile site.config
 	tar cvzf $@ \
 		--exclude-vcs \
 		--exclude-backups \
@@ -68,8 +68,8 @@ $(HTTPDETC)/sites.d: $(HTTPDETC)
 	mkdir -p $@
 
 install-share: $(SITESHARE)
-	cp -r cgi static $(SITESHARE)
-	find $(SITESHARE)/cgi -type f | xargs sed -i          \
+	cp -r src static $(SITESHARE)
+	find $(SITESHARE)/src -type f | xargs sed -i          \
 		-e "s#[@]HTTPDMARLA@#$(HTTPDMARLA)#g"             \
 		-e "s/[@]DOMAIN@/$(DOMAIN)/g"                     \
 		-e "s/[@]SITE@/$(SITE)/g"                         \
