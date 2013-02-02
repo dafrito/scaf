@@ -3,3 +3,9 @@
 @@PROJECT@@-*.rpm
 @@PROJECT_DASHES@@.tar.gz
 Makefile
+
+/*.rpm
+/*.tar.gz
+/*.spec
+blib/
+pm_to_blib
