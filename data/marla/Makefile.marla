@@ -3,6 +3,7 @@ include site.config
 BUILDNAME ?= headless
 
 include config/$(BUILDNAME).config
+include config/default.config
 
 build:
 .PHONY: build
@@ -14,8 +15,8 @@ config/$(BUILDNAME).config:
 	fi;
 
 PACKAGE=$(shell echo $(SITE) | sed -e 's/\./-/g')
-SITESHARE=$(MARLASHARE)/$(SITE)
-SITEDATA=/usr/share/$(NAME)/$(SITE)
+SITESHARE ?= $(MARLASHARE)/$(SITE)
+SITEDATA ?= /usr/share/$(NAME)/$(SITE)
 
 install: install-httpd install-share
 .PHONY: install
