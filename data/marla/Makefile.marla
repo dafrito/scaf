@@ -7,6 +7,12 @@ include config/$(BUILDNAME).config
 build:
 .PHONY: build
 
+config/$(BUILDNAME).config:
+	cd config; \
+	if ! test -e "$(BUILDNAME).config"; then \
+		ln -s default.config $(BUILDNAME).config; \
+	fi;
+
 PACKAGE=$(shell echo $(SITE) | sed -e 's/\./-/g')
 SITESHARE=$(MARLASHARE)/$(SITE)
 SITEDATA=/usr/share/$(NAME)/$(SITE)
@@ -48,8 +54,10 @@ $(httpdconf): $(HTTPDETC)/sites.d httpd.conf
 tar: $(SITE).tar.gz
 .PHONY: tar
 
-$(SITE).tar.gz: src static httpd.conf Makefile site.config
+# Symlinks are dereferenced here to ensure the transform doesn't break them
+$(SITE).tar.gz: src static httpd.conf Makefile Makefile.marla site.config config
 	tar cvzf $@ \
+		--dereference \
 		--exclude-vcs \
 		--exclude-backups \
 		--exclude='README' \
