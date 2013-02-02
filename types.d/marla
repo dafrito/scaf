@@ -38,6 +38,7 @@ generate_scaffold() {
     $SCAF license LICENSE
 
     if [ ! -e site.config ]; then
+        echo "# Ensure that this can be evaluated by shell scripts" >>site.config
         echo "SITE=`basename $file`" >>site.config
     fi;
 
