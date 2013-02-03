@@ -16,7 +16,6 @@ config/$(BUILDNAME).config:
 
 PACKAGE=$(shell echo $(SITE) | sed -e 's/\./-/g')
 SITESHARE ?= $(MARLASHARE)/$(SITE)
-SITEDATA ?= /usr/share/$(NAME)/$(SITE)
 
 install: install-httpd install-share
 .PHONY: install
@@ -24,10 +23,10 @@ install: install-httpd install-share
 # Site-specific Apache configuration
 httpdconf=$(HTTPDETC)/sites.d/$(PACKAGE).conf
 
-install-httpd: $(httpdconf)
+install-httpd: $(DESTDIR)/$(httpdconf)
 .PHONY: install-httpd
 
-$(httpdconf): $(HTTPDETC)/sites.d httpd.conf
+$(DESTDIR)/$(httpdconf): $(DESTDIR)/$(HTTPDETC)/sites.d httpd.conf
 	touch httpd.conf-wip
 	
 	# Add listen directives, if needed
@@ -48,7 +47,7 @@ $(httpdconf): $(HTTPDETC)/sites.d httpd.conf
 		-e "s/[@]IP@/$(IP)/g"                             \
 		-e "s/[@]PORT@/$(PORT)/g"                         \
 		-e "s/[@]SECURE_PORT@/$(SECURE_PORT)/g"           \
-		-e "s#[@]SITESHARE@#$(SITEDATA)#g"               \
+		-e "s#[@]SITESHARE@#$(SITESHARE)#g"               \
 	httpd.conf-wip;
 	mv httpd.conf-wip $@
 
@@ -77,12 +76,12 @@ rpm.spec: rpm.spec.in
 	$@-wip;
 	mv $@-wip $@
 
-$(HTTPDETC)/sites.d: $(HTTPDETC)
+$(DESTDIR)/$(HTTPDETC)/sites.d: $(DESTDIR)/$(HTTPDETC)
 	mkdir -p $@
 
-install-share: $(SITESHARE)
-	cp -r src static $(SITESHARE)
-	find $(SITESHARE)/src -type f | xargs sed -i          \
+install-share: $(DESTDIR)/$(SITESHARE)
+	cp -r src static $(DESTDIR)/$(SITESHARE)
+	find $(DESTDIR)/$(SITESHARE)/src -type f | xargs sed -i          \
 		-e "s#[@]HTTPDMARLA@#$(HTTPDMARLA)#g"             \
 		-e "s/[@]DOMAIN@/$(DOMAIN)/g"                     \
 		-e "s/[@]SITE@/$(SITE)/g"                         \
@@ -90,19 +89,19 @@ install-share: $(SITESHARE)
 		-e "s/[@]IP@/$(IP)/g"                             \
 		-e "s/[@]PORT@/$(PORT)/g"                         \
 		-e "s/[@]SECURE_PORT@/$(SECURE_PORT)/g"           \
-		-e "s#[@]SITESHARE@#$(SITEDATA)#g";
+		-e "s#[@]SITESHARE@#$(SITESHARE)#g";
 .PHONY: install-share
 
-$(SITESHARE):
+$(DESTDIR)/$(SITESHARE):
 	mkdir -p $@
 
 uninstall:
 	# Add a couple variable checks, just to be safe
 	if test x$(PACKAGE) != x; then                 \
-		rm -f $(HTTPDETC)/sites.d/$(PACKAGE).conf; \
+		rm -f $(DESTDIR)/$(HTTPDETC)/sites.d/$(PACKAGE).conf; \
 	fi;
-	if test x$(SITESHARE) != x; then               \
-		rm -rf $(SITESHARE);                       \
+	if test x$(DESTDIR)/$(SITESHARE) != x; then               \
+		rm -rf $(DESTDIR)/$(SITESHARE);                       \
 	fi;
 .PHONY: uninstall
 
