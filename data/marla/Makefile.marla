@@ -5,7 +5,16 @@ BUILDNAME ?= headless
 include config/$(BUILDNAME).config
 include config/default.config
 
-build:
+# Files that will be tarred and eventually installed in the share directory
+export SHAREFILES += src/* static
+
+# Files that will be deleted when clean is run
+export CLEANFILES += $(SITE).tar.gz rpm.spec
+
+# Files that will be built when build is run
+export BUILDFILES
+
+build: $(BUILDFILES)
 .PHONY: build
 
 config/$(BUILDNAME).config:
@@ -55,7 +64,7 @@ tar: $(SITE).tar.gz
 .PHONY: tar
 
 # Symlinks are dereferenced here to ensure the transform doesn't break them
-$(SITE).tar.gz: src static httpd.conf Makefile Makefile.marla site.config config
+$(SITE).tar.gz: $(SHAREFILES) httpd.conf Makefile Makefile.marla site.config config
 	tar cvzf $@ \
 		--dereference \
 		--exclude-vcs \
@@ -79,8 +88,8 @@ rpm.spec: rpm.spec.in
 $(DESTDIR)/$(HTTPDETC)/sites.d: $(DESTDIR)/$(HTTPDETC)
 	mkdir -p $@
 
-install-share: $(DESTDIR)/$(SITESHARE)
-	cp -r src/* static $(DESTDIR)/$(SITESHARE)
+install-share: | $(DESTDIR)/$(SITESHARE)
+	cp -r $(SHAREFILES) $(DESTDIR)/$(SITESHARE)
 	find $(DESTDIR)/$(SITESHARE) -type f -name '*.in' -delete
 	find $(DESTDIR)/$(SITESHARE) -type f -name '.gitignore' -delete
 	find $(DESTDIR)/$(SITESHARE)/src -type f | xargs sed -i          \
@@ -108,4 +117,5 @@ uninstall:
 .PHONY: uninstall
 
 clean:
+	rm -f $(CLEANFILES)
 .PHONY: clean
