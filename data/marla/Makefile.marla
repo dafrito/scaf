@@ -80,7 +80,9 @@ $(DESTDIR)/$(HTTPDETC)/sites.d: $(DESTDIR)/$(HTTPDETC)
 	mkdir -p $@
 
 install-share: $(DESTDIR)/$(SITESHARE)
-	cp -r src static $(DESTDIR)/$(SITESHARE)
+	cp -r src/* static $(DESTDIR)/$(SITESHARE)
+	find $(DESTDIR)/$(SITESHARE) -type f -name '*.in' -delete
+	find $(DESTDIR)/$(SITESHARE) -type f -name '.gitignore' -delete
 	find $(DESTDIR)/$(SITESHARE)/src -type f | xargs sed -i          \
 		-e "s#[@]HTTPDMARLA@#$(HTTPDMARLA)#g"             \
 		-e "s/[@]DOMAIN@/$(DOMAIN)/g"                     \
