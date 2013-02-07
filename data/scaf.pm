@@ -9,7 +9,7 @@ use Carp;
 require Exporter;
 
 our @ISA     = qw(Exporter);
-our @EXPORT  = qw(hello_world);
+our @EXPORT  = qw();
 our $VERSION = 1.00;
 
 sub new {
