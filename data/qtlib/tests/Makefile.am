@@ -1,5 +1,8 @@
 check_PROGRAMS = runtest
 runtest_CXXFLAGS = $(AM_CXXFLAGS) @QT_CXXFLAGS@ -I$(top_srcdir)/include -I$(top_srcdir)/src
+
+# Don't try changing "../src" to use "top_srcdir" - this is referring to the
+# built artifact, not something in the source directory
 runtest_LDADD = @QT_LIBS@ ../src/lib@@PROJECT@@.la
 
 TESTS = $(check_PROGRAMS)
