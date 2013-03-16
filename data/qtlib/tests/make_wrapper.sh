@@ -24,7 +24,7 @@ echo "int main(int argc, char *argv[])"
 echo -n "{"
 
 for f in $*; do
-	className=`basename $f .h`
+	className=`basename $f .hpp`
 	echo
 	echo "    $className test_$className;"
 	echo "    QTest::qExec(&test_$className, argc, argv);"
