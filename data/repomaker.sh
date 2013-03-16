@@ -17,8 +17,12 @@ SRCDIR=$HOME/src/@FILE@
 
 cd $SRCDIR || die
 
+BUILDDIR=repomaker.$$
+
 # TODO Ensure the build process is correct
-./configure || die
+mkdir -p $BUILDDIR || die
+cd $BUILDDIR || die
+../configure || die
 make rpm || die
 
 specfile=rpm.spec
@@ -36,3 +40,6 @@ for package in `rpm -q --specfile $specfile`; do
 	arch=`echo $package | grep -E -o '[^.]+$'`
 	cp -v $RPMDIR/RPMS/$arch/$package.rpm $REPODIR || die
 done
+
+cd .. || die
+rm -rf $BUILDDIR
