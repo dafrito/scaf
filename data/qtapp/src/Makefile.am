@@ -5,8 +5,9 @@ bin_PROGRAMS = @@PROJECT@@
 # moc-generated source files
 @@PROJECT_PRIMARY@@_MOC_SOURCES =
 
+nodist_@@PROJECT_PRIMARY@@_SOURCES = $(@@PROJECT_PRIMARY@@_MOC_SOURCES)
+
 @@PROJECT_PRIMARY@@_SOURCES = \
-	$(@@PROJECT_PRIMARY@@_MOC_SOURCES) \
 	main.cpp
 
 mostlyclean-local:
