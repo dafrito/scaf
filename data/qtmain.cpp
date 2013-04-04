@@ -7,15 +7,12 @@
 #include <QPushButton>
 #include <QSize>
 
-void centerApp(QMainWindow& window)
+void centerWindow(QMainWindow& window)
 {
-    QSize appSize(800, 600);
-    window.resize(appSize);
-
     QDesktopWidget* desktop = QApplication::desktop();
 
     int desktopArea = desktop->width() * desktop->height();
-    int appArea = appSize.width() * appSize.height();
+    int appArea = window.width() * window.height();
     if (((float)appArea / (float)desktopArea) > 0.75f) {
         // Just maximize it if the desktop isn't significantly
         // bigger than our app's area.
@@ -23,8 +20,8 @@ void centerApp(QMainWindow& window)
     } else {
         // Center the app on the primary monitor.
         QPoint windowLocation = desktop->screenGeometry(desktop->primaryScreen()).center();
-        windowLocation.setX(windowLocation.x() - appSize.width() / 2);
-        windowLocation.setY(windowLocation.y() - appSize.height() / 2);
+        windowLocation.setX(windowLocation.x() - window.width() / 2);
+        windowLocation.setY(windowLocation.y() - window.height() / 2);
         window.move(windowLocation);
         window.show();
     }
@@ -36,7 +33,8 @@ int main(int argc, char *argv[])
 
     QMainWindow gui;
     gui.setWindowTitle("@PROJECT@");
-    centerApp(gui);
+    gui.resize(800, 600);
+    centerWindow(gui);
 
     QPushButton quit("Quit", &gui);
     quit.setGeometry(10, 40, 180, 40);
