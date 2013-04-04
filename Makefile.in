@@ -26,7 +26,7 @@ ${APP}: Makefile
 	rm -f $@
 	mv $@-wip $@
 
-install: uninstall ${APP} | ${BINDIR} ${PKGDATADIR}
+install: ${APP} | ${BINDIR} ${PKGDATADIR}
 	test -n ${BINDIR}
 	test -n ${PKGDATADIR}
 	cp ${APP} ${BINDIR}
