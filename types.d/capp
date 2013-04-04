@@ -33,6 +33,7 @@ generate_scaffold() {
     project_obj=`echo $project | sed -re 's:^(.*)$:\u\1:' -e 's/[- ]//g'`
     project_primary=`echo $project | sed -re 's/[- +]/_/g'`
     project_define=`echo $project | sed -re "s/^(.*)$/\U\1/" -e 's/[- ]/_/g'`;
+    project_define_lower=`echo $project_define | sed -re "s/^(.*)$/\L\1/"`;
 
     if [ ! -e .scafrc ] || ! grep -q 'PROJECT=' .scafrc; then
         echo "PROJECT=$project" >>.scafrc
@@ -49,6 +50,7 @@ generate_scaffold() {
         -e "s/@@PROJECT_OBJ@@/$project_obj/g" \
         -e "s/@@PROJECT_PRIMARY@@/$project_primary/g" \
         -e "s/@@PROJECT_DEFINE@@/$project_define/g" \
+        -e "s/@@PROJECT_DEFINE_LOWER@@/$project_define_lower/g" \
         -e "s|@@WEBSITE@@|$website|g" \
         -e "s/@@YEAR@@/`date +%Y`/g" \
         -e "s:@@OWNER@@:`realname`:g" \

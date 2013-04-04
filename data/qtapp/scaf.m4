@@ -34,28 +34,28 @@ AC_DEFUN([AX_HAVE_@@PROJECT_DEFINE@@],
     AS_HELP_STRING([--with-@@PROJECT@@], [use @PACKAGE_NAME@]),
     [
       if test x"$withval" = "xno"; then
-        want_@@PROJECT_DEFINE@@="no";
+        want_@@PROJECT_DEFINE_LOWER@@="no";
       else
-        want_@@PROJECT_DEFINE@@="yes";
+        want_@@PROJECT_DEFINE_LOWER@@="yes";
       fi
     ],
-    [want_@@PROJECT_DEFINE@@="yes"]
+    [want_@@PROJECT_DEFINE_LOWER@@="yes"]
   )
 
-  if test x"$want_@@PROJECT_DEFINE@@" = "xyes"; then
+  if test x"$want_@@PROJECT_DEFINE_LOWER@@" = "xyes"; then
     AC_MSG_CHECKING([for @@PROJECT@@])
 
     # Ensure we have a suitable C++ compiler
     AC_REQUIRE([AC_PROG_CC])
 
-    ax_@@PROJECT_DEFINE@@_saved_CPPFLAGS="$CPPFLAGS"
-    ax_@@PROJECT_DEFINE@@_INCLUDE=""
-    CPPFLAGS="$CPPFLAGS $ax_@@PROJECT_DEFINE@@_INCLUDE"
+    ax_@@PROJECT_DEFINE_LOWER@@_saved_CPPFLAGS="$CPPFLAGS"
+    ax_@@PROJECT_DEFINE_LOWER@@_INCLUDE=""
+    CPPFLAGS="$CPPFLAGS $ax_@@PROJECT_DEFINE_LOWER@@_INCLUDE"
     export CPPFLAGS
 
-    ax_@@PROJECT_DEFINE@@_saved_LIBS="$LIBS"
-    ax_@@PROJECT_DEFINE@@_LIBS=""
-    LIBS="$LIBS $ax_@@PROJECT_DEFINE@@_LIBS"
+    ax_@@PROJECT_DEFINE_LOWER@@_saved_LIBS="$LIBS"
+    ax_@@PROJECT_DEFINE_LOWER@@_LIBS=""
+    LIBS="$LIBS $ax_@@PROJECT_DEFINE_LOWER@@_LIBS"
     export LIBS
 
     AC_LANG_PUSH([C++])
@@ -67,17 +67,17 @@ AC_DEFUN([AX_HAVE_@@PROJECT_DEFINE@@],
           return 0;
         ]]
       )],
-      ax_have_@@PROJECT_DEFINE@@=yes,
-      ax_have_@@PROJECT_DEFINE@@=no
+      ax_have_@@PROJECT_DEFINE_LOWER@@=yes,
+      ax_have_@@PROJECT_DEFINE_LOWER@@=no
     )
     AC_LANG_POP([C++])
 
-    AC_MSG_RESULT([$ax_have_@@PROJECT_DEFINE@@])
-    if test x"$ax_have_@@PROJECT_DEFINE@@" = "xyes"; then
+    AC_MSG_RESULT([$ax_have_@@PROJECT_DEFINE_LOWER@@])
+    if test x"$ax_have_@@PROJECT_DEFINE_LOWER@@" = "xyes"; then
       AC_DEFINE(HAVE_@@PROJECT_DEFINE@@,,[define if @@PROJECT@@ is available])
-      @@PROJECT_DEFINE@@_INCLUDE="$ax_@@PROJECT_DEFINE@@_INCLUDE"
+      @@PROJECT_DEFINE@@_INCLUDE="$ax_@@PROJECT_DEFINE_LOWER@@_INCLUDE"
       dnl This doesn't yet test the location of this project
-      @@PROJECT_DEFINE@@_LIBS="$ax_@@PROJECT_DEFINE@@_LIBS -l@PACKAGE_NAME@"
+      @@PROJECT_DEFINE@@_LIBS="$ax_@@PROJECT_DEFINE_LOWER@@_LIBS -l@PACKAGE_NAME@"
     else
       AC_MSG_ERROR([Could not find @@PROJECT@@])
       @@PROJECT_DEFINE@@_INCLUDE=""
@@ -86,7 +86,7 @@ AC_DEFUN([AX_HAVE_@@PROJECT_DEFINE@@],
     AC_SUBST(@@PROJECT_DEFINE@@_INCLUDE)
     AC_SUBST(@@PROJECT_DEFINE@@_LIBS)
 
-    CPPFLAGS="$ax_@@PROJECT_DEFINE@@_saved_CPPFLAGS"
-    LIBS="$ax_@@PROJECT_DEFINE@@_saved_LIBS"
+    CPPFLAGS="$ax_@@PROJECT_DEFINE_LOWER@@_saved_CPPFLAGS"
+    LIBS="$ax_@@PROJECT_DEFINE_LOWER@@_saved_LIBS"
   fi;
 ])
