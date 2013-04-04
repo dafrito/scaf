@@ -2,6 +2,7 @@
 
 AC_PREREQ([2.68])
 AC_INIT([@@PROJECT@@], [1.0], [@@EMAIL@@], [@@PROJECT@@], [@@WEBSITE@@])
+AC_SUBST([PACKAGE_RELEASE], [1])
 AM_INIT_AUTOMAKE([-Wall foreign])
 AC_CONFIG_SRCDIR([src/main.cpp])
 AC_CONFIG_HEADERS([src/config.h])
