@@ -7,5 +7,13 @@ runtest_LDADD = @BOOST_UNIT_TEST_FRAMEWORK_LIB@ ../src/lib@@PROJECT@@.la
 
 TESTS = $(check_PROGRAMS)
 
-runtest_SOURCES =         \
-	BasicTests.cpp
+noinst_HEADERS = \
+	init.hpp
+
+runtest_SOURCES = \
+	basic.cpp \
+	main.cpp
+
+main.cpp:
+	echo '#define BOOST_TEST_MODULE sigfig' >$@
+	echo '#include "init.hpp"' >>$@

@@ -1,31 +1,15 @@
 check_PROGRAMS = runtest
-runtest_CXXFLAGS = $(AM_CXXFLAGS) @QT_CXXFLAGS@ -I$(top_srcdir)/src
-runtest_LDADD = @QT_LIBS@
+runtest_CXXFLAGS = $(AM_CXXFLAGS) @QT_CXXFLAGS@ -I$(top_srcdir)/include -I$(top_srcdir)/src -DBOOST_TEST_DYN_LINK
+
+# Don't try changing "../src" to use "top_srcdir" - this is referring to the
+# built artifact, not something in the source directory
+runtest_LDADD = ../src/lib@@PROJECT@@.la @QT_LIBS@ @BOOST_UNIT_TEST_FRAMEWORK_LIB@
 
 TESTS = $(check_PROGRAMS)
 
-test_suites =         \
-	BasicTests
+noinst_HEADERS = \
+	init.hpp
 
-runtest_SOURCES =         \
-	tests.cpp             \
-	BasicTests.hpp
-
-runtest_MOC_SOURCES = \
-	moc_BasicTests.cpp
-
-nodist_runtest_SOURCES =      \
-	$(runtest_MOC_SOURCES)
-
-mostlyclean-local:
-	rm -f $(runtest_MOC_SOURCES)
-.PHONY: mostlyclean-local
-
-tests.cpp: $(top_srcdir)/tests/make_wrapper.sh $(addsuffix .hpp, $(test_suites))
-	rm -f $@
-	$(top_srcdir)/tests/make_wrapper.sh $^ >$@-wip
-	mv $@-wip $@
-	chmod -w $@
-
-moc_%.cpp: %.hpp
-	@QT_MOC@ -o $@ $<
+runtest_SOURCES = \
+	basic.cpp \
+	main.cpp

@@ -44,8 +44,6 @@ generate_scaffold() {
         rm scaf.m4
     fi;
 
-    $SCAF qtmain src/main
-
     find -type f | xargs sed -ri \
         -e "s/@@PROJECT@@/$project/g" \
         -e "s/@@PROJECT_OBJ@@/$project_obj/g" \
