@@ -9,7 +9,7 @@ all: ${APP}
 .PHONY: all
 
 Makefile: Makefile.in configure
-	./configure ${PREFIX}
+	$(SRCDIR)/configure ${PREFIX}
 
 ${APP}: Makefile
 	echo "#!/bin/bash"                                >$@-wip
@@ -29,8 +29,8 @@ ${APP}: Makefile
 install: ${APP} | ${BINDIR} ${PKGDATADIR}
 	test -n ${BINDIR}
 	test -n ${PKGDATADIR}
-	cp ${APP} ${BINDIR}
-	cp -r data types.d *.sh ${PKGDATADIR}
+	cp $(SRCDIR)/${APP} ${BINDIR}
+	cp -r $(SRCDIR)/data $(SRCDIR)/types.d $(SRCDIR)/*.sh ${PKGDATADIR}
 .PHONY: clean
 
 ${BINDIR} ${PKGDATADIR}:
@@ -43,10 +43,12 @@ dist-gzip: $(tarfile)
 
 $(tarfile): configure Makefile.in $(APP) run.sh data types.d
 	tar czf $@ \
+		--absolute-names \
 		--exclude-vcs \
 		--exclude-backups \
 		--exclude='release/**' \
 		--exclude='**-wip' \
+		--transform='s,$(SRCDIR)/,,g' \
 		--transform='s,^,$(APP)/,g' \
 		$^;
 
@@ -64,7 +66,7 @@ rpm: dist-gzip $(APP).spec | $(RPMDIR)
 	cp -u $(tarfile) $(RPMDIR)/SOURCES
 	cp -u $(APP).spec $(RPMDIR)/SPECS
 	rpmbuild --ba $(RPMDIR)/SPECS/$(APP).spec
-	for package in `rpm -q --specfile ./$(APP).spec`; do \
+	for package in `rpm -q --specfile $(APP).spec`; do \
 		arch=`echo $$package | grep -E -o '[^.]+$$'`; \
 		filename="$(RPMDIR)/RPMS/$$arch/$$package.rpm"; \
 		[ -e `basename $$filename` ] || ln -s $$filename; \
