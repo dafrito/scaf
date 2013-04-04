@@ -39,3 +39,7 @@ ar-lib
 
 # Qt artifacts
 moc_*
+
+# Editor artifacts
+*~
+*.swp

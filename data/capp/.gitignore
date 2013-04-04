@@ -36,3 +36,7 @@ ar-lib
 # Dist artifacts
 *.tar.gz
 *.rpm
+
+# Editor artifacts
+*~
+*.swp
