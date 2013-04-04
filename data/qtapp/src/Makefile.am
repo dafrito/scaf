@@ -1,6 +1,7 @@
 lib_LTLIBRARIES = lib@@PROJECT@@.la
 lib@@PROJECT_PRIMARY@@_la_CPPFLAGS = @QT_CXXFLAGS@ -I$(top_srcdir)/include
 lib@@PROJECT_PRIMARY@@_la_LIBADD = @QT_LIBS@
+lib@@PROJECT_PRIMARY@@_la_LDFLAGS = -version-info 0:0:0
 
 # moc-generated source files
 lib@@PROJECT_PRIMARY@@_la_MOC_SOURCES =

@@ -1,6 +1,7 @@
 lib_LTLIBRARIES = lib@@PROJECT@@.la
 lib@@PROJECT_PRIMARY@@_la_CPPFLAGS = -I$(top_srcdir)/include
 lib@@PROJECT_PRIMARY@@_la_LIBADD =
+lib@@PROJECT_PRIMARY@@_la_LDFLAGS = -version-info 0:0:0
 
 lib@@PROJECT_PRIMARY@@_la_SOURCES = \
 	Bootstrapper.cpp \
