@@ -6,6 +6,22 @@ pkgdata_DATA = \
 
 export RPMDIR ?= $$HOME/rpmbuild
 
+checkdebug: $(TESTS)
+	cd tests && gdb .libs/lt-runtest
+
+checkvalgrind:
+	cd tests && valgrind -v --leak-check=full .libs/lt-runtest
+
+debug: $(TESTS)
+	cd src && gdb @@PROJECT@@
+
+valgrind:
+	cd src && valgrind -v --leak-check=full --trace-children=yes @@PROJECT@@
+
+# This is a common typo for me
+cehck: check
+.PHONY: cehck
+
 RPMFLAGS ?= --ba
 rpm: rpm.spec dist-gzip | $(RPMDIR)
 	cp -u $(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz $(RPMDIR)/SOURCES
