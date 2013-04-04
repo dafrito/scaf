@@ -12,7 +12,7 @@ Source0:	@PACKAGE_NAME@-@PACKAGE_VERSION@.tar.gz
 BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 BuildArch:	@build_cpu@
 Requires:	qt
-BuildRequires: make automake autoconf libtool qt-devel
+BuildRequires: make automake autoconf libtool gcc-c++ boost-test boost-devel qt-devel
 
 %description
 TODO Add longer description
