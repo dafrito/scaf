@@ -61,9 +61,9 @@ AC_DEFUN([AX_HAVE_@@PROJECT_DEFINE@@],
     AC_LANG_PUSH([C++])
     AC_COMPILE_IFELSE([
       AC_LANG_PROGRAM(
-        [[@%:@include <@@PROJECT@@/@@PROJECT_OBJ@@.hpp>]],
+        [[@%:@include <@@PROJECT@@/Bootstrapper.hpp>]],
         [[
-          @@PROJECT_OBJ@@ obj;
+          Bootstrapper bs;
           return 0;
         ]]
       )],
