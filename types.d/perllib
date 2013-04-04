@@ -74,11 +74,12 @@ generate_scaffold() {
         # Set up git
         git init .
         git commit -m"Initial commit" --allow-empty
+        git tag _initial
         git add .
 
         # Commit everything for our initial commit
         git commit -m"Initial scaffold for a Bash application project"
-        git tag scaffold
+        git tag _scaffold
     fi;
 }
 

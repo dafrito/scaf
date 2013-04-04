@@ -69,6 +69,7 @@ generate_scaffold() {
         # Set up git
         git init .
         git commit -m"Initial commit" --allow-empty
+        git tag _initial
         git add .
 
         # Force the addition of the m4/ directory, since it's ignored in .gitignore
@@ -76,7 +77,7 @@ generate_scaffold() {
 
         # Commit everything for our initial commit
         git commit -m"Initial scaffold for an Autotools-backed Qt project"
-        git tag scaffold
+        git tag _scaffold
     fi;
 
     # Get Autotools setup
