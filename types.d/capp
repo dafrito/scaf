@@ -78,7 +78,7 @@ generate_scaffold() {
         git add -f m4
 
         # Commit everything for our initial commit
-        git commit -m"Initial scaffold for an Autotools-backed Qt project"
+        git commit -m"Initial scaffold for an Autotools-backed C++ project"
         git tag _scaffold
     fi;
 
