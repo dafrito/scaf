@@ -14,7 +14,7 @@ scaffold_header_file() {
 
     # TODO We should support using a different file if the filename
     # doesn't look like a class name
-    cp $SCAFDATA/scaf.hpp $file
+    cp $SCAFDATA/scaf.hpp $file || die
 
     header=`basename $file | \
         sed -re 's/\.[^.]+$//' \

@@ -16,7 +16,7 @@ generate_scaffold() {
         file="$file.cpp"
     fi;
 
-    cp $SCAFDATA/qtmain.cpp $file
+    cp $SCAFDATA/qtmain.cpp $file || die
 
     project=${PROJECT:-Hello world};
     sed -ri \

@@ -26,7 +26,7 @@ for f in $*; do
     if [ -e $f ]; then
         echo "$f already exists, skipping."
     else
-        cp $SCAFDATA/MIT.license $f
+        cp $SCAFDATA/MIT.license $f || die
         sed -i -re "s/@YEAR@/`date +%Y`/g" \
             -e "s:@OWNER@:`realname`:g" \
             $f;

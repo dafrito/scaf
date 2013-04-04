@@ -12,7 +12,7 @@ generate_scaffold() {
     file=$1;
     shift;
 
-    cp $SCAFDATA/repomaker.sh $file
+    cp $SCAFDATA/repomaker.sh $file || die
 
     # Substitute any relevant args
     sed -i -re "s#@FILE@#$file#g" \

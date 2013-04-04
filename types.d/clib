@@ -21,9 +21,9 @@ generate_scaffold() {
     file=$1;
     shift;
 
-    rsync -avzih $SCAFDATA/clib/ $file
+    rsync -avzih $SCAFDATA/clib/ $file || die
 
-    pushd $file
+    pushd $file || die
     file=`pwd`
 
     project=${PROJECT:-`basename $file`}

@@ -15,7 +15,7 @@ generate_scaffold() {
     obj="$1"
     shift
 
-    cp $SCAFDATA/scaf.pm $file
+    cp $SCAFDATA/scaf.pm $file || die
 
     # Substitute any relevant args
     sed -i -re "s/@CLASS@/$perlobj/g" \

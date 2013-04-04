@@ -12,7 +12,7 @@ generate_scaffold() {
     file="$1"
     shift
 
-    cp $SCAFDATA/scaf.sh $file
+    cp $SCAFDATA/scaf.sh $file || die
 
     if [ -n "$MODELINE" ]; then
         echo >>$file

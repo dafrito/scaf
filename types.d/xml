@@ -12,7 +12,7 @@ generate_scaffold() {
     file=$1;
     shift;
 
-    cp $SCAFDATA/scaf.xml $file
+    cp $SCAFDATA/scaf.xml $file || die
 
     # Substitute any relevant args
     sed -i -re "s/@YEAR@/`date +%Y`/g" \
