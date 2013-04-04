@@ -26,6 +26,7 @@ ltmain.sh
 .libs
 Makefile
 rpm.spec
+ar-lib
 @@PROJECT@@.m4
 
 # Dist artifacts
